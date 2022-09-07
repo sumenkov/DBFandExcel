@@ -4,11 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a2c5eea3-8537-4094-a521-9ebdb6580c13" name="Changes" comment="обработали DBF в Excel, разобрался с кодировкой (CP866)">
-      <change afterPath="$PROJECT_DIR$/src/main/java/ExcelValidation.java" afterDir="false" />
+    <list default="true" id="a2c5eea3-8537-4094-a521-9ebdb6580c13" name="Changes" comment="работа с директориями и списком файлов">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/DBFtoExcel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/DBFtoExcel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ExcelToDBF.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Main.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -90,7 +88,14 @@
       <option name="project" value="LOCAL" />
       <updated>1662528517815</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="работа с директориями и списком файлов">
+      <created>1662536536496</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1662536536496</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -107,6 +112,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="first" />
     <MESSAGE value="обработали DBF в Excel, разобрался с кодировкой (CP866)" />
-    <option name="LAST_COMMIT_MESSAGE" value="обработали DBF в Excel, разобрался с кодировкой (CP866)" />
+    <MESSAGE value="работа с директориями и списком файлов" />
+    <option name="LAST_COMMIT_MESSAGE" value="работа с директориями и списком файлов" />
   </component>
 </project>
