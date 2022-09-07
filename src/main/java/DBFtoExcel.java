@@ -72,7 +72,6 @@ public class DBFtoExcel {
                 for (int j = 0; j < data.size(); j++) {
                     rowObjects = (Object[]) data.get(j);
                     for (int k = 0; k < rowObjects.length; k++) {
-                        // Пересобераем строку, исправляем баги от кодировки OEM 866
                         String dataString = rowObjects[k] == null ? ""
                                 : processingCyrillic(new String(rowObjects[k].toString().getBytes(), "Cp866"));
                         // Метка (номер столбца, номер строки, содержимое)
@@ -96,7 +95,9 @@ public class DBFtoExcel {
     }
 
     public String processingCyrillic(String line){
-        return line.replaceAll("┬", "")
+        // Пересобераем строку, исправляем баги от кодировки OEM 866
+        return line.replaceAll("┬", "") // Знак перед верхним регистром
+                .replaceAll("├▒", "ё")
                 .replaceAll("├а", "р")
                 .replaceAll("├б", "с")
                 .replaceAll("├в", "т")
