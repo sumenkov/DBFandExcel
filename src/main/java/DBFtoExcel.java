@@ -73,27 +73,8 @@ public class DBFtoExcel {
                     rowObjects = (Object[]) data.get(j);
                     for (int k = 0; k < rowObjects.length; k++) {
                         // Пересобераем строку, исправляем баги от кодировки OEM 866
-                        String inDataString = rowObjects[k] == null ? "" : new String(rowObjects[k].toString().getBytes(), "Cp866");
-                        String dataString = inDataString
-                                .replaceAll("┬", "")
-                                .replaceAll("├а", "р")
-                                .replaceAll("├б", "с")
-                                .replaceAll("├в", "т")
-                                .replaceAll("├г", "у")
-                                .replaceAll("├д", "ф")
-                                .replaceAll("├е", "х")
-                                .replaceAll("├ж", "ц")
-                                .replaceAll("├з", "ч")
-                                .replaceAll("├и", "ш")
-                                .replaceAll("├й", "щ")
-                                .replaceAll("├к", "ъ")
-                                .replaceAll("├л", "ы")
-                                .replaceAll("├м", "ь")
-                                .replaceAll("├н", "э")
-                                .replaceAll("├о", "ю")
-                                .replaceAll("├п", "я")
-                                .replaceAll("├░", "Ё")
-                                .replaceAll("├╝", "№");
+                        String dataString = rowObjects[k] == null ? ""
+                                : processingCyrillic(new String(rowObjects[k].toString().getBytes(), "Cp866"));
                         // Метка (номер столбца, номер строки, содержимое)
                         label = new Label(k, j + 1, dataString);
                         sheet.addCell(label);
@@ -112,5 +93,27 @@ public class DBFtoExcel {
                 }
             }
         }
+    }
+
+    public String processingCyrillic(String line){
+        return line.replaceAll("┬", "")
+                .replaceAll("├а", "р")
+                .replaceAll("├б", "с")
+                .replaceAll("├в", "т")
+                .replaceAll("├г", "у")
+                .replaceAll("├д", "ф")
+                .replaceAll("├е", "х")
+                .replaceAll("├ж", "ц")
+                .replaceAll("├з", "ч")
+                .replaceAll("├и", "ш")
+                .replaceAll("├й", "щ")
+                .replaceAll("├к", "ъ")
+                .replaceAll("├л", "ы")
+                .replaceAll("├м", "ь")
+                .replaceAll("├н", "э")
+                .replaceAll("├о", "ю")
+                .replaceAll("├п", "я")
+                .replaceAll("├░", "Ё")
+                .replaceAll("├╝", "№");
     }
 }

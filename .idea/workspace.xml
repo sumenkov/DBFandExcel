@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a2c5eea3-8537-4094-a521-9ebdb6580c13" name="Changes" comment="работа с директориями и списком файлов">
+    <list default="true" id="a2c5eea3-8537-4094-a521-9ebdb6580c13" name="Changes" comment="поправил кодировку кирилицы">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/DBFtoExcel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/DBFtoExcel.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Main.java" afterDir="false" />
@@ -95,7 +95,14 @@
       <option name="project" value="LOCAL" />
       <updated>1662536536496</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="поправил кодировку кирилицы">
+      <created>1662541068863</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1662541068863</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -113,6 +120,7 @@
     <MESSAGE value="first" />
     <MESSAGE value="обработали DBF в Excel, разобрался с кодировкой (CP866)" />
     <MESSAGE value="работа с директориями и списком файлов" />
-    <option name="LAST_COMMIT_MESSAGE" value="работа с директориями и списком файлов" />
+    <MESSAGE value="поправил кодировку кирилицы" />
+    <option name="LAST_COMMIT_MESSAGE" value="поправил кодировку кирилицы" />
   </component>
 </project>

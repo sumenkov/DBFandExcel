@@ -7,11 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Main {
-    /*
-    !1. директории для DBF и xls - Готово!
-    2. сравнение списков в директориях + дата создания/изменения
-    3. графичиский интерфейс с гридом и термометром
-     */
     public static void main(String[] args) throws Exception {
         //Запрашиваем директорию с файлами
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
@@ -32,7 +27,6 @@ public class Main {
                 }
         }
 
-
         // Создаем директорию для сохранения файлов Excel
         Path dirOut = Path.of(dirIn + "\\xls");
         if (!Files.exists(dirOut)) {
@@ -45,7 +39,9 @@ public class Main {
             String filePath = dirIn + "\\" + nameFile.toString();
             List headName = new ArrayList();
             List data = new ArrayList();
+            // отделяем имя файла от расширения
             String name = nameFile.toString().substring(0, nameFile.toString().lastIndexOf("."));
+
             String saveFilePath = dirOut + "\\" + name + ".xls";
             String [] sheetNamePosts = {name + ": 0"};
 
