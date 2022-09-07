@@ -1,3 +1,5 @@
+package ru.sumenkov.dae;
+
 import com.linuxense.javadbf.DBFField;
 import com.linuxense.javadbf.DBFReader;
 import jxl.Workbook;
@@ -49,35 +51,30 @@ public class DBFtoExcel {
     /**
      * Сохранить данные, прочитанные из файла DBF, как Excel
      * @param saveFilePath - путь сохранения файла
-     * @param sheetNamePosts Имя листа и позиция курсора.
+     * @param sheetName Имя листа и позиция курсора.
      * @param headName коллекция имен полей
      * @param data данных
      */
-    public void writeExcel(String saveFilePath,String[] sheetNamePosts,List headName,List data){
+    public void writeExcel(String saveFilePath, String sheetName, List<String> headName, List<Object> data){
         WritableWorkbook book = null;
         try {
             book = Workbook.createWorkbook(new File(saveFilePath));
-            Label label = null;
-            WritableSheet sheet = null; // Рабочий лист
-            Object[] rowObjects = null;
-            String [] sheetNamePost = null; // Имя и местоположение листа
-            for (String namePost : sheetNamePosts) {
-                sheetNamePost = namePost.split(":");
-                sheet = book.createSheet(sheetNamePost[0], Integer.parseInt(sheetNamePost[1].trim())); // Создать рабочий лист
-                for (int j = 0; j < headName.size(); j++) {
+            Label label;
+            WritableSheet sheet; // Рабочий лист
+            sheet = book.createSheet(sheetName, 0); // Создать рабочий лист
+            for (int j = 0; j < headName.size(); j++) {
+                // Метка (номер столбца, номер строки, содержимое)
+                label = new Label(j,0,headName.get(j));
+                sheet.addCell(label);
+            }
+            for (int j = 0; j < data.size(); j++) {
+                Object[] rowObjects = (Object[]) data.get(j);
+                for (int k = 0; k < rowObjects.length; k++) {
+                    String dataString = rowObjects[k] == null ? ""
+                            : processingCyrillic(new String(rowObjects[k].toString().getBytes(), "Cp866"));
                     // Метка (номер столбца, номер строки, содержимое)
-                    label = new Label(j,0,new String(headName.get(j).toString()));
+                    label = new Label(k, j + 1, dataString);
                     sheet.addCell(label);
-                }
-                for (int j = 0; j < data.size(); j++) {
-                    rowObjects = (Object[]) data.get(j);
-                    for (int k = 0; k < rowObjects.length; k++) {
-                        String dataString = rowObjects[k] == null ? ""
-                                : processingCyrillic(new String(rowObjects[k].toString().getBytes(), "Cp866"));
-                        // Метка (номер столбца, номер строки, содержимое)
-                        label = new Label(k, j + 1, dataString);
-                        sheet.addCell(label);
-                    }
                 }
             }
             book.write();
