@@ -7,7 +7,6 @@ import jxl.write.WritableWorkbook;
 import jxl.write.WriteException;
 
 import java.io.*;
-import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 public class DBFtoExcel {
@@ -73,7 +72,7 @@ public class DBFtoExcel {
                 for (int j = 0; j < data.size(); j++) {
                     rowObjects = (Object[]) data.get(j);
                     for (int k = 0; k < rowObjects.length; k++) {
-                        // Пересобераем строку, исправляем глюк с кодировки OEM 866
+                        // Пересобераем строку, исправляем глюк от кодировки OEM 866
                         String inDataString = rowObjects[k] == null ? "" : new String(rowObjects[k].toString().getBytes(), "Cp866");
                         String dataString = inDataString.replaceAll("┬", "");
                         // Метка (номер столбца, номер строки, содержимое)
