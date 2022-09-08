@@ -61,7 +61,6 @@ public class writerExcel {
             String sign = String.valueOf(line.charAt(i));
             if (sign.equals("├")) {
                 sign = sign + line.charAt(i+1);
-                i++;
                 switch (sign) {
                     case "├▒" -> newLine.append("ё");
                     case "├а" -> newLine.append("р");
@@ -84,6 +83,7 @@ public class writerExcel {
                     case "├╝" -> newLine.append("№");
                     default -> newLine.append(sign);
                 }
+                i++;
             } else if (!String.valueOf(line.charAt(i)).equals("┬")) {
                 newLine.append(sign);
             }
