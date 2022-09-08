@@ -18,16 +18,14 @@ public class writerExcel {
      * @param headName коллекция имен полей
      * @param data данных
      */
-    public void writeExcel(String saveFilePath, String sheetName, List<String> headName, List<Object> data){
+    public void writeExcel(String saveFilePath, String sheetName, List<String> headName, List<Object> data){ // ? Объединить заголовки и данные в мапу
         WritableWorkbook book = null;
         try {
             book = Workbook.createWorkbook(new File(saveFilePath));
             Label label;
-            WritableSheet sheet; // Рабочий лист
-            sheet = book.createSheet(sheetName, 0); // Создать рабочий лист
+            WritableSheet sheet = book.createSheet(sheetName, 0); // Создать рабочий лист
             for (int j = 0; j < headName.size(); j++) {
-                // Метка (номер столбца, номер строки, содержимое)
-                label = new Label(j,0,headName.get(j));
+                label = new Label(j,0,headName.get(j)); // Метка (номер столбца, номер строки, содержимое)
                 sheet.addCell(label);
             }
             for (int j = 0; j < data.size(); j++) {
@@ -35,8 +33,7 @@ public class writerExcel {
                 for (int k = 0; k < rowObjects.length; k++) {
                     String dataString = rowObjects[k] == null ? ""
                             : processingCyrillic(new String(rowObjects[k].toString().getBytes(), "Cp866"));
-                    // Метка (номер столбца, номер строки, содержимое)
-                    label = new Label(k, j + 1, dataString);
+                    label = new Label(k, j + 1, dataString); // Метка (номер столбца, номер строки, содержимое)
                     sheet.addCell(label);
                 }
             }
@@ -54,13 +51,16 @@ public class writerExcel {
         }
     }
 
+    /**
+     * Пересобераем строку, исправляем баги от кодировки OEM 866
+     * @param line - Строка для обработки
+     */
     public String processingCyrillic(String line){
-        // Пересобераем строку, исправляем баги от кодировки OEM 866
         StringBuilder newLine = new StringBuilder();
         for (int i = 0; i < line.length(); i++) {
             String sign = String.valueOf(line.charAt(i));
             if (sign.equals("├")) {
-                sign = sign + line.charAt(i+1);
+                sign = sign + line.charAt(i+1); i++; // прибавили букву, увеличили счетчик
                 switch (sign) {
                     case "├▒" -> newLine.append("ё");
                     case "├а" -> newLine.append("р");
@@ -83,7 +83,6 @@ public class writerExcel {
                     case "├╝" -> newLine.append("№");
                     default -> newLine.append(sign);
                 }
-                i++;
             } else if (!String.valueOf(line.charAt(i)).equals("┬")) {
                 newLine.append(sign);
             }
