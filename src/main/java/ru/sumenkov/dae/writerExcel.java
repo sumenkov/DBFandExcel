@@ -1,53 +1,16 @@
 package ru.sumenkov.dae;
 
-import com.linuxense.javadbf.DBFField;
-import com.linuxense.javadbf.DBFReader;
 import jxl.Workbook;
 import jxl.write.Label;
 import jxl.write.WritableSheet;
 import jxl.write.WritableWorkbook;
 import jxl.write.WriteException;
 
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
-public class DBFtoExcel {
-
-    /**
-     * Считать данные из файла DBF и сохранить данные в headName, данные.
-     * @param filePath Расположение файла DBF
-     * @param headName коллекция имен полей
-     * @param data данных
-     */
-    public void readDBFFile(String filePath, List headName, List data) {
-        InputStream inputStream = null;
-        try {
-            inputStream = new FileInputStream(filePath);
-            DBFReader reader = new DBFReader(inputStream);
-            int numberOfFields = reader.getFieldCount();
-            DBFField filed = null;
-            for (int i = 0; i < numberOfFields; i++) {
-                filed = reader.getField (i); // Считать значение поля
-                headName.add(filed.getName());
-            }
-            Object[] rowObjects = null;
-            while ((rowObjects = reader.nextRecord ()) != null) {// Чтение данных
-                data.add(rowObjects);
-            }
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } finally {
-            if (inputStream != null) {
-                try {
-                    inputStream.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-    }
-
+public class writerExcel {
     /**
      * Сохранить данные, прочитанные из файла DBF, как Excel
      * @param saveFilePath - путь сохранения файла

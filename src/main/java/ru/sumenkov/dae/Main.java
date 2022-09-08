@@ -37,25 +37,11 @@ public class Main {
                 }
         }
 
-        // Создаем директорию для сохранения файлов Excel
-        Path dirOut = Path.of(dirIn + "\\xls");
-        if (!Files.exists(dirOut)) {
-            Files.createDirectory(dirOut);
-        }
-
         // Обработка DBF файлов
         for (String nameFile: namesFiles) {
-            DBFtoExcel toExcel = new DBFtoExcel();
             String filePath = dirIn + "\\" + nameFile;
-            List<String> headName = new ArrayList<>();
-            List<Object> data = new ArrayList<>();
-            // отделяем имя файла от расширения
-            String name = nameFile.substring(0, nameFile.lastIndexOf("."));
-
-            String saveFilePath = dirOut + "\\" + name + ".xls";
-
-            toExcel.readDBFFile(filePath, headName, data);
-            toExcel.writeExcel(saveFilePath, name, headName, data);
+            readerDBF readDBF = new readerDBF();
+            readDBF.readDBFFile(filePath);
         }
     }
 }
