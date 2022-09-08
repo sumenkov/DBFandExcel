@@ -10,6 +10,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class readerDBF {
+    /**
+     * char: 92 равно знаку '/'
+     */
+    public static final int SLASH_CHARACTER = 92;
 
     /**
      * Считать данные из файла DBF и сохранить данные в headName, данные.
@@ -45,17 +49,15 @@ public class readerDBF {
         }
 
         // исправляем путь до последней директории *** java.nio поискать F
-        int beginDelString = filePath.lastIndexOf(Main.SLASH_CHARACTER);
-        Path dirIn = Path.of(filePath.substring(0, beginDelString));
-
+        int indexSlashCharacter = filePath.lastIndexOf(SLASH_CHARACTER);
+        Path dirIn = Path.of(filePath.substring(0, indexSlashCharacter));
         // Создаем директорию для сохранения файлов Excel
         Path dirOut = Path.of(dirIn + "\\xls");
         if (!Files.exists(dirOut)) {
             Files.createDirectory(dirOut);
         }
-
-        // отделяем имя файла от расширения
-        String name = filePath.substring(0, filePath.lastIndexOf("."));
+        // отделяем имя файла
+        String name = filePath.substring(indexSlashCharacter + 1, filePath.lastIndexOf("."));
         // создаем имя нового файла
         String saveFilePath = dirOut + "\\" + name + ".xls";
         //записываем файл
