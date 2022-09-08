@@ -48,17 +48,24 @@ public class readerDBF {
             }
         }
 
-        // исправляем путь до последней директории *** java.nio поискать F
-        int indexSlashCharacter = filePath.lastIndexOf(SLASH_CHARACTER);
-        Path dirIn = Path.of(filePath.substring(0, indexSlashCharacter));
+        saveFileExcel(filePath, headName, data);
+    }
+
+    /**
+     * Сохранить данные, прочитанные из файла DBF, как Excel
+     * @param filePath Полный путь до прочитанного файла
+     * @param headName коллекция имен полей
+     * @param data коллекция данных
+     */
+    public static void saveFileExcel(String filePath, List<String> headName, List<Object> data) throws IOException {
         // Создаем директорию для сохранения файлов Excel
-        Path dirOut = Path.of(dirIn + "\\xls");
+        Path dirOut = Path.of(Path.of(filePath).getParent() + "\\xls");
         if (!Files.exists(dirOut)) {
             Files.createDirectory(dirOut);
         }
-        // отделяем имя файла
-        String name = filePath.substring(indexSlashCharacter + 1, filePath.lastIndexOf("."));
-        // создаем имя нового файла
+        // вытаскиваем имя файла и листа
+        String name = filePath.substring(filePath.lastIndexOf(SLASH_CHARACTER) + 1, filePath.lastIndexOf("."));
+        // создаем полный пусть с именем нового файла
         String saveFilePath = dirOut + "\\" + name + ".xls";
         //записываем файл
         writerExcel toExcel = new writerExcel();
