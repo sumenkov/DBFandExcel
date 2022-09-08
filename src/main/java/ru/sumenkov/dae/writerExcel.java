@@ -18,14 +18,14 @@ public class writerExcel {
      * @param headName коллекция имен полей
      * @param data данных
      */
-    public void writeExcel(String saveFilePath, String sheetName, List<String> headName, List<Object> data){ // ? Объединить заголовки и данные в мапу
+    public void writeExcel(String saveFilePath, String sheetName, List<String> headName, List<Object> data){
         WritableWorkbook book = null;
         try {
             book = Workbook.createWorkbook(new File(saveFilePath));
             Label label;
             WritableSheet sheet = book.createSheet(sheetName, 0); // Создать рабочий лист
-            for (int j = 0; j < headName.size(); j++) {
-                label = new Label(j,0,headName.get(j)); // Метка (номер столбца, номер строки, содержимое)
+            for (int i = 0; i < headName.size(); i++) {
+                label = new Label(i,0,headName.get(i)); // Метка (номер столбца, номер строки, содержимое)
                 sheet.addCell(label);
             }
             for (int j = 0; j < data.size(); j++) {

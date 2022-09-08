@@ -32,6 +32,7 @@ public class readerDBF {
                 filed = reader.getField (i); // Считать значение поля
                 headName.add(filed.getName());
             }
+
             Object[] rowObjects;
             while ((rowObjects = reader.nextRecord ()) != null) {// Чтение данных
                 data.add(rowObjects);
