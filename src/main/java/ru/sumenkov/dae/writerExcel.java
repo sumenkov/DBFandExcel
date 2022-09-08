@@ -84,9 +84,7 @@ public class writerExcel {
                     case "├╝" -> newLine.append("№");
                     default -> newLine.append(sign);
                 }
-            } else if (String.valueOf(line.charAt(i)).equals("┬")) {
-                break;
-            } else {
+            } else if (!String.valueOf(line.charAt(i)).equals("┬")) {
                 newLine.append(sign);
             }
         }
