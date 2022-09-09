@@ -9,7 +9,7 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
-public class readerDBF {
+public class ReaderDBF {
     /**
      * char: 92 равно знаку '/'
      */
@@ -69,7 +69,7 @@ public class readerDBF {
         // создаем полный пусть с именем нового файла
         String saveFilePath = dirOut + "\\" + name + ".xls";
         //записываем файл
-        writerExcel toExcel = new writerExcel();
+        WriterExcel toExcel = new WriterExcel();
         toExcel.writeExcel(saveFilePath, name, headName, data);
     }
 }

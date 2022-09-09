@@ -10,7 +10,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
-public class writerExcel {
+public class WriterExcel {
     /**
      * Сохранить данные, прочитанные из файла DBF, как Excel
      * @param saveFilePath - путь сохранения файла

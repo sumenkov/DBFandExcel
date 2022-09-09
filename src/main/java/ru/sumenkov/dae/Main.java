@@ -9,8 +9,22 @@ import java.nio.file.Path;
 
 public class Main {
     public static void main(String[] args) throws Exception {
+        String launchARG = null;
+        try {
+            switch (args[0]) {
+                case "dbftoexcel", "exceltodbf" -> launchARG = args[0];
+                default -> System.out.println("""
+                        Не правильно указан аргумент запуска.
+                        Доступные агрументы:
+                        dbftoexcel - для конвертации DBF таблиц в Excel
+                        exceltodbf - для конвертации Excel таблиц в DBF""");
+            }
+        } catch (ArrayIndexOutOfBoundsException e) {
+            System.out.println("Не указан аргумент запуска");
+        }
+
         Path uploadDir = requestingDirectory();
-        processingFiles(uploadDir);
+        processingFiles(uploadDir, launchARG);
     }
 
     /**
@@ -32,13 +46,22 @@ public class Main {
      * Собираем и обрабатываем файлы
      * @param uploadDir Директория расположение файлов DBF
      */
-    public static void processingFiles(Path uploadDir) throws IOException {
-        readerDBF readDBF = new readerDBF();
+    public static void processingFiles(Path uploadDir, String launchARG) throws IOException {
+
         try (DirectoryStream<Path> files = Files.newDirectoryStream(uploadDir)) {
             for (Path file : files) {
-                if (file.toString().substring(file.toString().lastIndexOf(".") + 1)
-                        .equalsIgnoreCase("dbf")) {
-                    readDBF.readDBFFile(file.toString());
+                String substring = file.toString().substring(file.toString().lastIndexOf(".") + 1);
+                if (launchARG.equals("dbftoexcel")) {
+                    ReaderDBF readDBF = new ReaderDBF();
+                    if (substring.equalsIgnoreCase("dbf")) {
+                        readDBF.readDBFFile(file.toString());
+                    }
+                } else if (launchARG.equals("exceltodbf")) {
+                    ReaderExcel readerExcel = new ReaderExcel();
+                    System.out.println("В разработке");
+                    if (substring.equalsIgnoreCase("xls")) {
+                        System.out.println("Найден файл: " + file);
+                    }
                 }
             }
         }
