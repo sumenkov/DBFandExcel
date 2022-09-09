@@ -58,18 +58,24 @@ public class Main {
         try (DirectoryStream<Path> files = Files.newDirectoryStream(uploadDir)) {
             for (Path file : files) {
                 String substring = file.toString().substring(file.toString().lastIndexOf(".") + 1);
-                if (launchARG.equals("dbftoexcel")) {
-                    ReaderDBF reader = new ReaderDBF();
-                    if (substring.equalsIgnoreCase("dbf")) {
-                        reader.readDBFFile(file.toString());
+                switch (launchARG){
+                    case "dbftoexcel" -> {
+                        if (substring.equalsIgnoreCase("dbf")) {
+                            ReaderDBF reader = new ReaderDBF();
+                            System.out.println("Конвертируем файл: " + file);
+                            reader.readDBFFile(file.toString());
+                            System.out.println("Закончили");
+                        }
                     }
-                } else if (launchARG.equals("exceltodbf")) {
-//                    ReaderExcel readerExcel = new ReaderExcel();
-                    if (substring.equalsIgnoreCase("xls")) {
-                        ReaderExcel reader = new ReaderExcel();
-                        System.out.println("Найден файл: " + file);
-                        reader.readExcel(file.toString());
+                    case "exceltodbf" -> {
+                        if (substring.equalsIgnoreCase("xls")) {
+                            ReaderExcel reader = new ReaderExcel();
+                            System.out.println("Конвертируем файл: " + file);
+                            reader.readExcel(file.toString());
+                            System.out.println("Закончили");
+                        }
                     }
+                    default -> System.out.println("Файл не найден.");
                 }
             }
         }

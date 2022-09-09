@@ -6,13 +6,16 @@ import jxl.read.biff.BiffException;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ReaderExcel {
-    public void readExcel(String fileLocation) throws IOException, BiffException {
+    public static final int SLASH_CHARACTER = 92;
+    public void readExcel(String filePath) throws IOException, BiffException {
 
-        Workbook workbook = Workbook.getWorkbook(new File(fileLocation));
+        Workbook workbook = Workbook.getWorkbook(new File(filePath));
         Sheet sheet = workbook.getSheet(0);
         int rows = sheet.getRows();
         int columns = sheet.getColumns();
@@ -26,6 +29,20 @@ public class ReaderExcel {
             rowsData.add(rowData);
         }
 
-        WriterDBF.writeDBF(rowsData);
+        saveFileDBF(filePath, rowsData);
+    }
+
+    public static void saveFileDBF(String filePath, List<Object> rowsData) throws IOException {
+        // Создаем директорию для сохранения файлов Excel
+        Path dirOut = Path.of(Path.of(filePath).getParent() + "\\newDBF");
+        if (!Files.exists(dirOut)) {
+            Files.createDirectory(dirOut);
+        }
+        // вытаскиваем имя файла и листа
+        String name = filePath.substring(filePath.lastIndexOf(SLASH_CHARACTER) + 1, filePath.lastIndexOf("."));
+        // создаем полный пусть с именем нового файла
+        String saveFilePath = dirOut + "\\" + name + ".dbf";
+        //записываем файл
+        WriterDBF.writeDBF(saveFilePath, rowsData);
     }
 }
