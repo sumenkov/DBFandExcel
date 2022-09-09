@@ -1,6 +1,9 @@
 package ru.sumenkov.dae;
-// изменить не получается, будем создавать новый DBF
+
+import java.io.FileNotFoundException;
 
 public class ReaderExcel {
-    WriterDBF toDBF = new WriterDBF();
+    public static void readExcel() throws FileNotFoundException {
+        WriterDBF.writeDBF();
+    }
 }

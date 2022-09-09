@@ -62,10 +62,11 @@ public class Main {
                         readDBF.readDBFFile(file.toString());
                     }
                 } else if (launchARG.equals("exceltodbf")) {
-                    ReaderExcel readerExcel = new ReaderExcel();
+//                    ReaderExcel readerExcel = new ReaderExcel();
                     System.out.println("В разработке");
                     if (substring.equalsIgnoreCase("xls")) {
                         System.out.println("Найден файл: " + file);
+                        ReaderExcel.readExcel();
                     }
                 }
             }

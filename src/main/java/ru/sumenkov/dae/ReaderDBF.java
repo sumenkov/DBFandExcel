@@ -4,6 +4,7 @@ import com.linuxense.javadbf.DBFField;
 import com.linuxense.javadbf.DBFReader;
 
 import java.io.*;
+import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -25,7 +26,7 @@ public class ReaderDBF {
         List<Object> data = new ArrayList<>();
         try {
             inputStream = new FileInputStream(filePath);
-            DBFReader reader = new DBFReader(inputStream);
+            DBFReader reader = new DBFReader(inputStream, Charset.forName("Cp866"));
             int numberOfFields = reader.getFieldCount();
             DBFField filed;
             for (int i = 0; i < numberOfFields; i++) {
