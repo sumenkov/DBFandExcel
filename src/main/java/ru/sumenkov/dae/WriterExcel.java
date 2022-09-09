@@ -18,7 +18,7 @@ public class WriterExcel {
      * @param headName коллекция имен полей
      * @param data данных
      */
-    public void writeExcel(String saveFilePath, String sheetName, List<String> headName, List<Object> data){
+    public static void writeExcel(String saveFilePath, String sheetName, List<String> headName, List<Object> data){
         WritableWorkbook book = null;
         try {
             book = Workbook.createWorkbook(new File(saveFilePath));

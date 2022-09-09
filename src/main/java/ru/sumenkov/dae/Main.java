@@ -1,5 +1,7 @@
 package ru.sumenkov.dae;
 
+import jxl.read.biff.BiffException;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -51,22 +53,22 @@ public class Main {
      * Собираем и обрабатываем файлы
      * @param uploadDir Директория расположение файлов DBF
      */
-    public static void processingFiles(Path uploadDir, String launchARG) throws IOException {
+    public static void processingFiles(Path uploadDir, String launchARG) throws IOException, BiffException {
 
         try (DirectoryStream<Path> files = Files.newDirectoryStream(uploadDir)) {
             for (Path file : files) {
                 String substring = file.toString().substring(file.toString().lastIndexOf(".") + 1);
                 if (launchARG.equals("dbftoexcel")) {
-                    ReaderDBF readDBF = new ReaderDBF();
+                    ReaderDBF reader = new ReaderDBF();
                     if (substring.equalsIgnoreCase("dbf")) {
-                        readDBF.readDBFFile(file.toString());
+                        reader.readDBFFile(file.toString());
                     }
                 } else if (launchARG.equals("exceltodbf")) {
 //                    ReaderExcel readerExcel = new ReaderExcel();
-                    System.out.println("В разработке");
                     if (substring.equalsIgnoreCase("xls")) {
+                        ReaderExcel reader = new ReaderExcel();
                         System.out.println("Найден файл: " + file);
-                        ReaderExcel.readExcel();
+                        reader.readExcel(file.toString());
                     }
                 }
             }

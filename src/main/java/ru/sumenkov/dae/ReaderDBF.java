@@ -70,7 +70,6 @@ public class ReaderDBF {
         // создаем полный пусть с именем нового файла
         String saveFilePath = dirOut + "\\" + name + ".xls";
         //записываем файл
-        WriterExcel toExcel = new WriterExcel();
-        toExcel.writeExcel(saveFilePath, name, headName, data);
+        WriterExcel.writeExcel(saveFilePath, name, headName, data);
     }
 }
