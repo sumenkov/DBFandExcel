@@ -13,14 +13,18 @@ public class Main {
         try {
             switch (args[0]) {
                 case "dbftoexcel", "exceltodbf" -> launchARG = args[0];
-                default -> System.out.println("""
-                        Не правильно указан аргумент запуска.
-                        Доступные агрументы:
-                        dbftoexcel - для конвертации DBF таблиц в Excel
-                        exceltodbf - для конвертации Excel таблиц в DBF""");
+                default -> {
+                    System.out.println("""
+                            Не правильно указан аргумент запуска.
+                            Доступные агрументы:
+                            dbftoexcel - для конвертации DBF таблиц в Excel
+                            exceltodbf - для конвертации Excel таблиц в DBF""");
+                    System.exit(0);
+                }
             }
         } catch (ArrayIndexOutOfBoundsException e) {
             System.out.println("Не указан аргумент запуска");
+            System.exit(0);
         }
 
         Path uploadDir = requestingDirectory();
@@ -31,6 +35,7 @@ public class Main {
      * Запрашиваем директорию с файлами
      */
     public static Path requestingDirectory() throws Exception {
+        System.out.println("Укажите полный путь к директории с файлами:");
         Path dirIn;
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
             dirIn = Path.of(reader.readLine());
