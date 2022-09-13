@@ -66,12 +66,17 @@ public class Main {
             for (Path file : files) {
                 String substring = file.toString().substring(file.toString().lastIndexOf(".") + 1);
                 if (substring.equalsIgnoreCase(launchARG)) {
-                    System.out.print("Конвертируем файл: " + file.getFileName());
+                    System.out.println("Конвертируем файл: " + file.getFileName());
                     switch (launchARG) {
-                        case "dbf" -> ReaderDBF.readDBFFile(file.toString());
-                        case "xls" -> ReaderExcel.readExcel(file.toString());
+                        case "dbf" -> {
+                            ReaderDBF readerDBF = new ReaderDBF(file.toString());
+                            new Thread(readerDBF).start();
+                        }
+                        case "xls" -> {
+                            ReaderExcel readerExcel = new ReaderExcel(file.toString());
+                            new Thread(readerExcel).start();
+                        }
                     }
-                    System.out.println(" ... Закончили");
                 } else System.out.println(file.getFileName() + " ... Не правильно расширение.");
             }
         }

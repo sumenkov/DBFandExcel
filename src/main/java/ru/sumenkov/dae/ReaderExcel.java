@@ -9,13 +9,13 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ReaderExcel {
+public class ReaderExcel implements Runnable {
 
     /**
      * Считать данные из файла Excel.
      * @param filePath Расположение файла DBF
      */
-    public static void readExcel(String filePath) throws IOException, BiffException {
+    public ReaderExcel (String filePath) throws IOException, BiffException {
 
         Workbook workbook = Workbook.getWorkbook(new File(filePath));
         Sheet sheet = workbook.getSheet(0);
@@ -32,5 +32,9 @@ public class ReaderExcel {
         }
 
         WriterDBF.saveFileDBF(filePath, rowsData);
+    }
+
+    @Override
+    public void run() {
     }
 }

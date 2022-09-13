@@ -8,13 +8,13 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ReaderDBF {
+public class ReaderDBF implements Runnable {
 
     /**
      * Считать данные из файла DBF.
      * @param filePath Расположение файла DBF
      */
-    public static void readDBFFile(String filePath) throws IOException {
+    public ReaderDBF (String filePath) throws IOException {
         InputStream inputStream = null;
         List<String> headName = new ArrayList<>();
         List<Object> data = new ArrayList<>();
@@ -45,5 +45,9 @@ public class ReaderDBF {
         }
 
         WriterExcel.saveFileExcel(filePath, headName, data);
+    }
+
+    @Override
+    public void run() {
     }
 }
