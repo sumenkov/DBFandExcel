@@ -3,14 +3,10 @@ package ru.sumenkov.dae;
 import jxl.read.biff.BiffException;
 
 import javax.swing.*;
-import javax.swing.plaf.basic.BasicInternalFrameTitlePane;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.BufferedReader;
-import java.io.File;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -58,14 +54,12 @@ public class Main {
         textArea.setLineWrap(true);
         textArea.setWrapStyleWord(true);
         textArea.setEditable(false);
-//        textArea.setRows(50);
 
         JScrollPane scrollPane = new JScrollPane(textArea);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         scrollPane.setWheelScrollingEnabled(true);
 
-//        textArea.setSize(500, 100);
-        JPanel panel_log = new JPanel(new GridLayout(1,1));
+        JPanel panel_log = new JPanel(new GridLayout(1, 1));
         panel_log.setBorder(BorderFactory.createTitledBorder("log:"));
         panel_log.add(scrollPane);
 
@@ -75,13 +69,13 @@ public class Main {
         starButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (radioButtonDBF.isSelected()){
-                    try (DirectoryStream<Path> files = Files.newDirectoryStream(Path.of(label2.getText()))){
+                if (radioButtonDBF.isSelected()) {
+                    try (DirectoryStream<Path> files = Files.newDirectoryStream(Path.of(label2.getText()))) {
                         for (Path file : files) {
                             String substring = file.toString().substring(file.toString().lastIndexOf(".") + 1);
                             if (substring.equalsIgnoreCase("dbf")) {
                                 ReaderDBF reader = new ReaderDBF();
-                                textArea.append("Конвертируем файл: " + file.getFileName());
+                                textArea.append("Конвертируем файл: " + file.getFileName() + " ... ");
                                 reader.readDBFFile(file.toString());
                                 textArea.append("Готово.\n");
                             }
@@ -95,7 +89,7 @@ public class Main {
                             String substring = file.toString().substring(file.toString().lastIndexOf(".") + 1);
                             if (substring.equalsIgnoreCase("xls")) {
                                 ReaderExcel reader = new ReaderExcel();
-                                textArea.append("Конвертируем файл: " + file.getFileName());
+                                textArea.append("Конвертируем файл: " + file.getFileName() + " ... ");
                                 reader.readExcel(file.toString());
                                 textArea.append("Готово.\n");
                             }
@@ -123,79 +117,5 @@ public class Main {
         frame.pack();
         frame.setVisible(true);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-
-
-//        Старый код:
-
-//        String launchARG = null;
-//        try {
-//            switch (args[0]) {
-//                case "dbftoexcel", "exceltodbf" -> launchARG = args[0];
-//                default -> {
-//                    System.out.println("""
-//                            Не правильно указан аргумент запуска.
-//                            Доступные агрументы:
-//                            dbftoexcel - для конвертации DBF таблиц в Excel
-//                            exceltodbf - для конвертации Excel таблиц в DBF""");
-//                    System.exit(0);
-//                }
-//            }
-//        } catch (ArrayIndexOutOfBoundsException e) {
-//            System.out.println("Не указан аргумент запуска");
-//            System.exit(0);
-//        }
-//
-//        Path uploadDir = requestingDirectory();
-//        processingFiles(uploadDir, launchARG);
-//    }
-//
-//    /**
-//     * Запрашиваем директорию с файлами
-//     */
-//    public static Path requestingDirectory() throws Exception {
-//        System.out.println("Укажите полный путь к директории с файлами:");
-//        Path dirIn;
-//        try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
-//            dirIn = Path.of(reader.readLine());
-//        }
-//        // Если выбрали файл, исправляем путь на директорию где он лежит
-//        if (!Files.isDirectory(dirIn)) {
-//            dirIn = dirIn.getParent();
-//        }
-//        return dirIn;
-    }
-
-    /**
-     * Собираем и обрабатываем файлы
-     * @param uploadDir Директория расположение файлов DBF
-     * @param launchARG аргумент запуска программы
-     */
-    public static void processingFiles(Path uploadDir, String launchARG) throws IOException, BiffException {
-
-        try (DirectoryStream<Path> files = Files.newDirectoryStream(uploadDir)) {
-            for (Path file : files) {
-                String substring = file.toString().substring(file.toString().lastIndexOf(".") + 1);
-                switch (launchARG){
-                    case "dbftoexcel" -> {
-                        if (substring.equalsIgnoreCase("dbf")) {
-                            ReaderDBF reader = new ReaderDBF();
-                            System.out.println("Конвертируем файл: " + file.getFileName() + " ... ");
-                            reader.readDBFFile(file.toString());
-//                            System.out.println("Закончили");
-                        }
-                    }
-                    case "exceltodbf" -> {
-                        if (substring.equalsIgnoreCase("xls")) {
-                            ReaderExcel reader = new ReaderExcel();
-                            System.out.println("Конвертируем файл: " + file.getFileName() + " ... ");
-                            reader.readExcel(file.toString());
-//                            System.out.println("Закончили");
-                        }
-                    }
-//                    default -> System.out.println("Файл не найден.");
-                }
-            }
-            System.out.println("Закончили.");
-        }
     }
 }
