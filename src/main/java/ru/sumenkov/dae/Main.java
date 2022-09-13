@@ -14,13 +14,13 @@ public class Main {
         String launchARG = null;
         try {
             switch (args[0]) {
-                case "dbftoexcel", "exceltodbf" -> launchARG = args[0];
+                case "--dbftoexcel", "--exceltodbf" -> launchARG = args[0];
                 default -> {
                     System.out.println("""
                             Не правильно указан аргумент запуска.
                             Доступные агрументы:
-                            dbftoexcel - для конвертации DBF таблиц в Excel
-                            exceltodbf - для конвертации Excel таблиц в DBF""");
+                            --bftoexcel - для конвертации DBF таблиц в Excel
+                            --exceltodbf - для конвертации Excel таблиц в DBF""");
                     System.exit(0);
                 }
             }
@@ -59,7 +59,7 @@ public class Main {
             for (Path file : files) {
                 String substring = file.toString().substring(file.toString().lastIndexOf(".") + 1);
                 switch (launchARG){
-                    case "dbftoexcel" -> {
+                    case "--dbftoexcel" -> {
                         if (substring.equalsIgnoreCase("dbf")) {
                             ReaderDBF reader = new ReaderDBF();
                             System.out.println("Конвертируем файл: " + file);
@@ -67,7 +67,7 @@ public class Main {
                             System.out.println("Закончили");
                         }
                     }
-                    case "exceltodbf" -> {
+                    case "--exceltodbf" -> {
                         if (substring.equalsIgnoreCase("xls")) {
                             ReaderExcel reader = new ReaderExcel();
                             System.out.println("Конвертируем файл: " + file);
