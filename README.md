@@ -6,3 +6,7 @@
 --dbftoexcel - для конвертации DBF таблиц в Excel
 
 --exceltodbf - для конвертации Excel таблиц в DBF
+
+После указания аргумента можно сразу добавить путь до директории с файлами, или сделать это позднее.
+
+    java -jar DBFandExcel.jar --dbftoexcel C:\Users\user\DFBfiles

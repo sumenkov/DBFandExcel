@@ -14,22 +14,27 @@ public class Main {
         String launchARG = null;
         try {
             switch (args[0]) {
-                case "--dbftoexcel", "--exceltodbf" -> launchARG = args[0];
+                case "--dbftoexcel" -> launchARG = "dbf";
+                case "--exceltodbf" -> launchARG = "xls";
                 default -> {
                     System.out.println("""
                             Не правильно указан аргумент запуска.
                             Доступные агрументы:
                             --bftoexcel - для конвертации DBF таблиц в Excel
-                            --exceltodbf - для конвертации Excel таблиц в DBF""");
+                            --exceltodbf - для конвертации Excel таблиц в DBF
+                                                        
+                            После указания аргумента можно сразу добавить путь до директории с файлами, или сделать это позднее.
+                            Пример: java -jar DBFandExcel.jar --dbftoexcel C:\\Users\\user\\DFBfiles""");
                     System.exit(0);
                 }
             }
         } catch (ArrayIndexOutOfBoundsException e) {
-            System.out.println("Не указан аргумент запуска");
+            System.out.println("Не указан аргумент запуска. Смотрите --help");
             System.exit(0);
         }
 
-        Path uploadDir = requestingDirectory();
+        Path uploadDir = (args.length > 1) ? Path.of(args[1]) : requestingDirectory();
+
         processingFiles(uploadDir, launchARG);
     }
 
@@ -51,32 +56,23 @@ public class Main {
 
     /**
      * Собираем и обрабатываем файлы
+     *
      * @param uploadDir Директория расположение файлов DBF
+     * @param launchARG код агрумента выбора обработки, полученного от пользователя
      */
     public static void processingFiles(Path uploadDir, String launchARG) throws IOException, BiffException {
 
         try (DirectoryStream<Path> files = Files.newDirectoryStream(uploadDir)) {
             for (Path file : files) {
                 String substring = file.toString().substring(file.toString().lastIndexOf(".") + 1);
-                switch (launchARG){
-                    case "--dbftoexcel" -> {
-                        if (substring.equalsIgnoreCase("dbf")) {
-                            ReaderDBF reader = new ReaderDBF();
-                            System.out.println("Конвертируем файл: " + file);
-                            reader.readDBFFile(file.toString());
-                            System.out.println("Закончили");
-                        }
+                if (substring.equalsIgnoreCase(launchARG)) {
+                    System.out.print("Конвертируем файл: " + file.getFileName());
+                    switch (launchARG) {
+                        case "dbf" -> ReaderDBF.readDBFFile(file.toString());
+                        case "xls" -> ReaderExcel.readExcel(file.toString());
                     }
-                    case "--exceltodbf" -> {
-                        if (substring.equalsIgnoreCase("xls")) {
-                            ReaderExcel reader = new ReaderExcel();
-                            System.out.println("Конвертируем файл: " + file);
-                            reader.readExcel(file.toString());
-                            System.out.println("Закончили");
-                        }
-                    }
-                    default -> System.out.println("Файл не найден.");
-                }
+                    System.out.println(" ... Закончили");
+                } else System.out.println(file.getFileName() + " ... Не правильно расширение.");
             }
         }
     }

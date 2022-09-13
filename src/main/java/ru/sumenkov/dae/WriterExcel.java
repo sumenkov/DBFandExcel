@@ -8,22 +8,39 @@ import jxl.write.WriteException;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.List;
 
 public class WriterExcel {
     /**
-     * Сохранить данные, прочитанные из файла DBF, как Excel
-     * @param saveFilePath - путь сохранения файла
-     * @param sheetName Имя листа и позиция курсора.
-     * @param headName коллекция имен полей
-     * @param data данных
+     * char: 92 равно знаку '/'
      */
-    public static void writeExcel(String saveFilePath, String sheetName, List<String> headName, List<Object> data){
+    public static final int SLASH_CHARACTER = 92;
+
+    /**
+     * Сохранить данные, прочитанные из файла DBF, как Excel
+     * @param filePath Полный путь до прочитанного файла
+     * @param headName коллекция имен полей
+     * @param data коллекция данных
+     */
+    public static void saveFileExcel(String filePath, List<String> headName, List<Object> data) throws IOException {
+        // Создаем директорию для сохранения файлов Excel
+        Path dirOut = Path.of(Path.of(filePath).getParent() + "\\xls");
+        if (!Files.exists(dirOut)) {
+            Files.createDirectory(dirOut);
+        }
+        // вытаскиваем имя файла и листа
+        String name = filePath.substring(filePath.lastIndexOf(SLASH_CHARACTER) + 1, filePath.lastIndexOf("."));
+        // создаем полный пусть с именем нового файла
+        String saveFilePath = dirOut + "\\" + name + ".xls";
+
+        //записываем файл
         WritableWorkbook book = null;
         try {
             book = Workbook.createWorkbook(new File(saveFilePath));
             Label label;
-            WritableSheet sheet = book.createSheet(sheetName, 0); // Создать рабочий лист
+            WritableSheet sheet = book.createSheet(name, 0); // Создать рабочий лист
             for (int i = 0; i < headName.size(); i++) {
                 label = new Label(i,0,headName.get(i)); // Метка (номер столбца, номер строки, содержимое)
                 sheet.addCell(label);
