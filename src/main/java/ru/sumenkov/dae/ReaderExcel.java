@@ -13,6 +13,7 @@ public class ReaderExcel implements Runnable {
 
     /**
      * Считать данные из файла Excel.
+     *
      * @param filePath Расположение файла DBF
      */
     public ReaderExcel (String filePath) throws IOException, BiffException {

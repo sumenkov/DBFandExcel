@@ -12,6 +12,7 @@ public class ReaderDBF implements Runnable {
 
     /**
      * Считать данные из файла DBF.
+     *
      * @param filePath Расположение файла DBF
      */
     public ReaderDBF (String filePath) throws IOException {

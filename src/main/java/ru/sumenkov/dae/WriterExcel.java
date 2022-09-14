@@ -20,6 +20,7 @@ public class WriterExcel {
 
     /**
      * Сохранить данные, прочитанные из файла DBF, как Excel
+     *
      * @param filePath Полный путь до прочитанного файла
      * @param headName коллекция имен полей
      * @param data коллекция данных

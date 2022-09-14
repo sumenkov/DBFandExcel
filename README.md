@@ -1,5 +1,5 @@
 # DBFandExcel
-Конвертация DBF файлов  в Excel и обратно (поддерживает кириллицу CP866).
+Конвертация DBF файлов  в Excel и обратно (работает в кодировке CP866).
 
 Доступные агрументы для запуска:
 
@@ -9,4 +9,4 @@
 
 После указания аргумента можно сразу добавить путь до директории с файлами, или сделать это позднее.
 
-    java -jar DBFandExcel.jar --dbftoexcel C:\Users\user\DFBfiles
+    java -jar DBFandExcel.jar --dbftoexcel C:\Users\user\DBFfiles
