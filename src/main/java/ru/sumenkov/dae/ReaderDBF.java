@@ -9,13 +9,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ReaderDBF implements Runnable {
+    private final String filePath;
 
     /**
      * Считать данные из файла DBF.
      *
      * @param filePath Расположение файла DBF
      */
-    public ReaderDBF (String filePath) throws IOException {
+    public ReaderDBF (String filePath) {
+        this.filePath = filePath;
+    }
+
+    @Override
+    public void run() {
         InputStream inputStream = null;
         List<String> headName = new ArrayList<>();
         List<Object> data = new ArrayList<>();
@@ -45,10 +51,10 @@ public class ReaderDBF implements Runnable {
             }
         }
 
-        WriterExcel.saveFileExcel(filePath, headName, data);
-    }
-
-    @Override
-    public void run() {
+        try {
+            WriterExcel.saveFileExcel(filePath, headName, data);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

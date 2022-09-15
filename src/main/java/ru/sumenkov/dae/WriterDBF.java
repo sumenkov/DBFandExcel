@@ -5,7 +5,6 @@ import com.linuxense.javadbf.*;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.charset.Charset;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 
@@ -23,10 +22,7 @@ public class WriterDBF {
      */
     public static void saveFileDBF(String filePath, List<Object> rowsData) throws IOException {
         // Создаем директорию для сохранения файлов Excel
-        Path dirOut = Path.of(Path.of(filePath).getParent() + "\\newDBF");
-        if (!Files.exists(dirOut)) {
-           Files.createDirectory(dirOut);
-        }
+        Path dirOut = Path.of(Path.of(filePath).getParent() + "\\dbf");
         // вытаскиваем имя файла и листа
         String name = filePath.substring(filePath.lastIndexOf(SLASH_CHARACTER) + 1, filePath.lastIndexOf("."));
         // создаем полный пусть с именем нового файла

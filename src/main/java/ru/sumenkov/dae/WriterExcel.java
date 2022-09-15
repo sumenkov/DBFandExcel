@@ -8,7 +8,6 @@ import jxl.write.WriteException;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 
@@ -26,11 +25,8 @@ public class WriterExcel {
      * @param data коллекция данных
      */
     public static void saveFileExcel(String filePath, List<String> headName, List<Object> data) throws IOException {
-        // Создаем директорию для сохранения файлов Excel
+        // директория для сохранения файлов Excel
         Path dirOut = Path.of(Path.of(filePath).getParent() + "\\xls");
-        if (!Files.exists(dirOut)) {
-            Files.createDirectory(dirOut);
-        }
         // вытаскиваем имя файла и листа
         String name = filePath.substring(filePath.lastIndexOf(SLASH_CHARACTER) + 1, filePath.lastIndexOf("."));
         // создаем полный пусть с именем нового файла

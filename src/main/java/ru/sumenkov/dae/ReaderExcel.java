@@ -10,15 +10,25 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ReaderExcel implements Runnable {
+    private final String filePath;
 
     /**
      * Считать данные из файла Excel.
      *
      * @param filePath Расположение файла DBF
      */
-    public ReaderExcel (String filePath) throws IOException, BiffException {
+    public ReaderExcel (String filePath) {
+        this.filePath = filePath;
+    }
 
-        Workbook workbook = Workbook.getWorkbook(new File(filePath));
+    @Override
+    public void run() {
+        Workbook workbook;
+        try {
+            workbook = Workbook.getWorkbook(new File(filePath));
+        } catch (IOException | BiffException e) {
+            throw new RuntimeException(e);
+        }
         Sheet sheet = workbook.getSheet(0);
         int rows = sheet.getRows();
         int columns = sheet.getColumns();
@@ -32,10 +42,10 @@ public class ReaderExcel implements Runnable {
             rowsData.add(rowData);
         }
 
-        WriterDBF.saveFileDBF(filePath, rowsData);
-    }
-
-    @Override
-    public void run() {
+        try {
+            WriterDBF.saveFileDBF(filePath, rowsData);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
