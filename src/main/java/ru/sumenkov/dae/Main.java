@@ -28,7 +28,6 @@ public class Main {
         Path uploadDir = (args.length > 1) ? ProcessingPath.fixDirectoryPath(Path.of(args[1])) : ProcessingPath.requestDirectory();
         ProcessingPath.createDirectoryToSave(uploadDir);
 
-        ProcessingFiles processingFiles = new ProcessingFiles(uploadDir, launchARG);
-        new Thread(processingFiles).start();
+        ProcessingFiles.processingFiles(uploadDir, launchARG);
     }
 }

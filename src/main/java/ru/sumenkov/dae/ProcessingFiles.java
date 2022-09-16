@@ -9,9 +9,11 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 
-public class ProcessingFiles implements Runnable {
-    private final Path uploadDir;
-    private final String launchARG;
+public final class ProcessingFiles {
+
+    private ProcessingFiles() {
+        throw new AssertionError("Instantiating ProcessingFiles class.");
+    }
 
     /**
      * Собираем и обрабатываем файлы
@@ -19,33 +21,44 @@ public class ProcessingFiles implements Runnable {
      * @param uploadDir Директория расположения файлов DBF
      * @param launchARG код агрумента выбора обработки, полученного от пользователя
      */
-    public ProcessingFiles(Path uploadDir, String launchARG) {
-        this.uploadDir = uploadDir;
-        this.launchARG = launchARG;
-    }
-
-    @Override
-    public void run() {
+    public static void processingFiles(Path uploadDir, String launchARG) {
         try (DirectoryStream<Path> files = Files.newDirectoryStream(uploadDir)) {
             for (Path file : files) {
                 String substring = file.toString().substring(file.toString().lastIndexOf(".") + 1);
                 if (Files.isRegularFile(file) && substring.equalsIgnoreCase(launchARG)) {
                     System.out.println("Конвертируем файл: " + file.getFileName());
-                    String filePath = file.toString();
-                    switch (launchARG) {
-                        case "dbf" -> {
-                            List<Object> dataDBF = ReaderDBF.readDBF(filePath);
-                            WriterExcel.saveFileExcel(filePath, dataDBF);
-                        }
-                        case "xls" -> {
-                            List<Object> dataExcel = ReaderExcel.readExcel(filePath);
-                            WriterDBF.saveFileDBF(filePath, dataExcel);
-                        }
-                    }
+                    RunProcessing runProcessing = new RunProcessing(launchARG, file.toString());
+                    new Thread(runProcessing).start();
                 }
             }
-        } catch (WriteException | BiffException | IOException e) {
+        } catch (IOException e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * Обработка каждого файла в отдельном потоке
+     *
+     * @param launchARG код агрумента выбора обработки, полученного от пользователя
+     * @param filePath полный путь файла
+     */
+    private record RunProcessing(String launchARG, String filePath) implements Runnable {
+        @Override
+        public void run() {
+            try {
+                switch (launchARG) {
+                    case "dbf" -> {
+                        List<Object> dataDBF = ReaderDBF.readDBF(filePath);
+                        WriterExcel.saveFileExcel(filePath, dataDBF);
+                    }
+                    case "xls" -> {
+                        List<Object> dataExcel = ReaderExcel.readExcel(filePath);
+                        WriterDBF.saveFileDBF(filePath, dataExcel);
+                    }
+                }
+            } catch (BiffException | WriteException | IOException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 }
