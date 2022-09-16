@@ -2,6 +2,7 @@ package ru.sumenkov.dae;
 
 import com.linuxense.javadbf.DBFField;
 import com.linuxense.javadbf.DBFReader;
+import jxl.write.WriteException;
 
 import java.io.*;
 import java.nio.charset.Charset;
@@ -22,38 +23,25 @@ public class ReaderDBF implements Runnable {
 
     @Override
     public void run() {
-        InputStream inputStream = null;
-        List<String> headName = new ArrayList<>();
-        List<Object> data = new ArrayList<>();
-        try {
-            inputStream = new FileInputStream(filePath);
+        try (InputStream inputStream = new FileInputStream(filePath)) {
             DBFReader reader = new DBFReader(inputStream, Charset.forName("Cp866"));
             int numberOfFields = reader.getFieldCount();
             DBFField filed;
+            List<String> headName = new ArrayList<>();
             for (int i = 0; i < numberOfFields; i++) {
                 filed = reader.getField (i); // Считать значение поля
                 headName.add(filed.getName());
             }
 
+            List<Object> data = new ArrayList<>();
             Object[] rowObjects;
             while ((rowObjects = reader.nextRecord ()) != null) {// Чтение данных
                 data.add(rowObjects);
             }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } finally {
-            if (inputStream != null) {
-                try {
-                    inputStream.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
 
-        try {
-            WriterExcel.saveFileExcel(filePath, headName, data);
-        } catch (IOException e) {
+            new WriterExcel().saveFileExcel(filePath, headName, data);
+
+        }  catch (IOException | WriteException e) {
             throw new RuntimeException(e);
         }
     }

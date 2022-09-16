@@ -6,7 +6,14 @@ import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-public class ProcessingPath {
+public final class ProcessingPath {
+    /**
+     * char: 92 равно знаку '/'
+     */
+    public static final int SLASH_CHARACTER = 92;
+    private ProcessingPath() {
+        throw new AssertionError("Instantiating ProcessingPath class.");
+    }
 
     /**
      * Если выбрали файл, исправляем путь на директорию где он лежит
@@ -15,7 +22,7 @@ public class ProcessingPath {
      */
     public static Path fixDirectoryPath(Path uploadDir) {
         if (Files.isRegularFile(uploadDir)) {
-            uploadDir = uploadDir.getParent();
+            return uploadDir.getParent();
         }
         return uploadDir;
     }
@@ -30,8 +37,9 @@ public class ProcessingPath {
         if (!Files.exists(dirOut)) {
            try {
                Files.createDirectory(dirOut);
+           // нодо обсудить...
            }catch (java.nio.file.NoSuchFileException e) {
-               System.out.println("Директория с файлами указана не верно, проверти написание пути. Смотрите --help");
+               System.out.println("Директория с файлами указана не верно, проверти написание пути.");
                System.exit(0);
            }
         }
@@ -40,12 +48,20 @@ public class ProcessingPath {
     /**
      * Запрашиваем директорию с файлами
      */
-    public static Path requestingDirectory() throws Exception {
+    public static Path requestDirectory() throws Exception {
         System.out.println("Укажите полный путь к директории с файлами:");
-        Path dirIn;
+
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
-            dirIn = Path.of(reader.readLine());
+            return Path.of(reader.readLine());
         }
-        return dirIn;
+    }
+
+    /**
+     * Получаем имя файла из полученного пути
+     *
+     * @param filePath полный путь до файла
+     */
+    public static String getFileName(String filePath) {
+        return filePath.substring(filePath.lastIndexOf(SLASH_CHARACTER) + 1, filePath.lastIndexOf("."));
     }
 }

@@ -5,7 +5,10 @@ import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-public class ProcessingFiles {
+public final class ProcessingFiles {
+    private ProcessingFiles() {
+        throw new AssertionError("Instantiating ProcessingFiles class.");
+    }
 
     /**
      * Собираем и обрабатываем файлы
@@ -14,7 +17,6 @@ public class ProcessingFiles {
      * @param launchARG код агрумента выбора обработки, полученного от пользователя
      */
     public static void processingFiles(Path uploadDir, String launchARG) throws IOException {
-
         try (DirectoryStream<Path> files = Files.newDirectoryStream(uploadDir)) {
             for (Path file : files) {
                 if (Files.isRegularFile(file)) {
@@ -31,7 +33,9 @@ public class ProcessingFiles {
                                 new Thread(readerExcel).start();
                             }
                         }
-                    } else System.out.println(file.getFileName() + " ... Не правильное расширение.");
+                    } else {
+                        System.out.println(file.getFileName() + " ... Не правильное расширение.");
+                    }
                 }
             }
         }

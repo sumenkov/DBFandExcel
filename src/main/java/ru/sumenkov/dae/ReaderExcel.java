@@ -29,11 +29,11 @@ public class ReaderExcel implements Runnable {
         } catch (IOException | BiffException e) {
             throw new RuntimeException(e);
         }
+
         Sheet sheet = workbook.getSheet(0);
         int rows = sheet.getRows();
         int columns = sheet.getColumns();
         List<Object> rowsData = new ArrayList<>();
-
         for (int i = 1; i < rows; i++) { // Начинаем не с 0 строки, а с 1. Пропускаем заголовки таблиц
             Object[] rowData = new Object[StructureTableDBF.NUMBER_OF_COLUMNS];
             for (int j = 0; j < columns; j++) {
@@ -43,7 +43,7 @@ public class ReaderExcel implements Runnable {
         }
 
         try {
-            WriterDBF.saveFileDBF(filePath, rowsData);
+            new WriterDBF().saveFileDBF(filePath, rowsData);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

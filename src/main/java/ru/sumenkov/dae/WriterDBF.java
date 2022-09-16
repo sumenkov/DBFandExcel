@@ -10,23 +10,16 @@ import java.util.List;
 
 public class WriterDBF {
     /**
-     * char: 92 равно знаку '/'
-     */
-    public static final int SLASH_CHARACTER = 92;
-
-    /**
      * Сохранить данные прочитанные из excel в формат dbf
      *
      * @param filePath Полный путь до прочитанного файла
      * @param rowsData коллекция данных
      */
-    public static void saveFileDBF(String filePath, List<Object> rowsData) throws IOException {
-        // Создаем директорию для сохранения файлов Excel
-        Path dirOut = Path.of(Path.of(filePath).getParent() + "\\dbf");
-        // вытаскиваем имя файла и листа
-        String name = filePath.substring(filePath.lastIndexOf(SLASH_CHARACTER) + 1, filePath.lastIndexOf("."));
+    public void saveFileDBF(String filePath, List<Object> rowsData) throws IOException {
+        // Получаем директорию для сохранения файлов Excel
+        Path dirOut = Path.of(ProcessingPath.fixDirectoryPath(Path.of(filePath)).toString() + "\\new Files");
         // создаем полный пусть с именем нового файла
-        String saveFilePath = dirOut + "\\" + name + ".dbf";
+        String saveFilePath = dirOut + "\\" + ProcessingPath.getFileName(filePath) + ".dbf";
 
         // создадим определения полей
         DBFField[] fields = StructureTableDBF.tableStructure();

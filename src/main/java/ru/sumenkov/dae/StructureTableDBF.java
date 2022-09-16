@@ -3,9 +3,15 @@ package ru.sumenkov.dae;
 import com.linuxense.javadbf.DBFDataType;
 import com.linuxense.javadbf.DBFField;
 
-public class StructureTableDBF {
+public final class StructureTableDBF {
+    private StructureTableDBF() {
+        throw new AssertionError("Instantiating StructureTableDBF class");
+    }
     public static final int NUMBER_OF_COLUMNS = 10;
-    // создадим определения полей
+
+    /**
+     * Описания структуры DBF таблицы
+     */
     public static DBFField[] tableStructure() {
         DBFField[] fields = new DBFField[NUMBER_OF_COLUMNS];
 
