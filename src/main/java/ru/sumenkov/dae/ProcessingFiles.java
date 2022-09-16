@@ -70,6 +70,7 @@ public final class ProcessingFiles {
                     }
                 }
             } catch (BiffException | WriteException | IOException e) {
+                System.out.println("Ошибка обработки файла: " + filePath);
                 throw new RuntimeException(e);
             }
         }
