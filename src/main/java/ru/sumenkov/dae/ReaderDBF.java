@@ -1,47 +1,48 @@
 package ru.sumenkov.dae;
 
-import com.linuxense.javadbf.DBFField;
 import com.linuxense.javadbf.DBFReader;
-import jxl.write.WriteException;
 
 import java.io.*;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ReaderDBF implements Runnable {
-    private final String filePath;
+public final class ReaderDBF {
+    private ReaderDBF() {
+        throw new AssertionError("Instantiating ReaderDBF class.");
+    }
 
     /**
      * Считать данные из файла DBF.
      *
      * @param filePath Расположение файла DBF
+     * @return массив данных, полученных из файла
      */
-    public ReaderDBF (String filePath) {
-        this.filePath = filePath;
-    }
 
-    @Override
-    public void run() {
+    public static List<Object> readDBF(String filePath) {
         try (InputStream inputStream = new FileInputStream(filePath)) {
             DBFReader reader = new DBFReader(inputStream, Charset.forName("Cp866"));
+
+            // Собираем насвание столбцов
             int numberOfFields = reader.getFieldCount();
-            DBFField filed;
             List<String> headName = new ArrayList<>();
             for (int i = 0; i < numberOfFields; i++) {
-                filed = reader.getField (i); // Считать значение поля
-                headName.add(filed.getName());
+                headName.add(reader.getField(i).getName());
             }
 
             List<Object> data = new ArrayList<>();
+            // Добавляем заголовки столбцов
+            data.add(headName.toArray());
+
             Object[] rowObjects;
-            while ((rowObjects = reader.nextRecord ()) != null) {// Чтение данных
+            // Чтение данных
+            while ((rowObjects = reader.nextRecord ()) != null) {
                 data.add(rowObjects);
             }
 
-            new WriterExcel().saveFileExcel(filePath, headName, data);
+            return data;
 
-        }  catch (IOException | WriteException e) {
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }

@@ -8,14 +8,18 @@ import java.nio.charset.Charset;
 import java.nio.file.Path;
 import java.util.List;
 
-public class WriterDBF {
+public final class WriterDBF {
+    private WriterDBF() {
+        throw new AssertionError("Instantiating WriterDBF class.");
+    }
+
     /**
      * Сохранить данные прочитанные из excel в формат dbf
      *
      * @param filePath Полный путь до прочитанного файла
      * @param rowsData коллекция данных
      */
-    public void saveFileDBF(String filePath, List<Object> rowsData) throws IOException {
+    public static void saveFileDBF(String filePath, List<Object> rowsData) throws IOException {
         // Получаем директорию для сохранения файлов Excel
         Path dirOut = Path.of(ProcessingPath.fixDirectoryPath(Path.of(filePath)).toString() + "\\new Files");
         // создаем полный пусть с именем нового файла

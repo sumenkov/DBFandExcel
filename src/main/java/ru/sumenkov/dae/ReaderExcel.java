@@ -9,27 +9,22 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ReaderExcel implements Runnable {
-    private final String filePath;
+public final class ReaderExcel {
+
+    private ReaderExcel() {
+        throw new AssertionError("Instantiating ReaderExcel class.");
+    }
+
 
     /**
      * Считать данные из файла Excel.
      *
      * @param filePath Расположение файла DBF
+     * @return массив данных, полученных из файла
      */
-    public ReaderExcel (String filePath) {
-        this.filePath = filePath;
-    }
 
-    @Override
-    public void run() {
-        Workbook workbook;
-        try {
-            workbook = Workbook.getWorkbook(new File(filePath));
-        } catch (IOException | BiffException e) {
-            throw new RuntimeException(e);
-        }
-
+    public static List<Object> readExcel(String filePath) throws BiffException, IOException {
+        Workbook workbook = Workbook.getWorkbook(new File(filePath));
         Sheet sheet = workbook.getSheet(0);
         int rows = sheet.getRows();
         int columns = sheet.getColumns();
@@ -42,10 +37,6 @@ public class ReaderExcel implements Runnable {
             rowsData.add(rowData);
         }
 
-        try {
-            new WriterDBF().saveFileDBF(filePath, rowsData);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        return rowsData;
     }
 }

@@ -11,32 +11,36 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.util.List;
 
-public class WriterExcel {
+public final class WriterExcel {
+    private WriterExcel() {
+        throw new AssertionError("Instantiating WriterExcel class.");
+    }
     /**
      * Сохранить данные, прочитанные из файла DBF, как Excel
      *
      * @param filePath Полный путь до прочитанного файла
-     * @param headName коллекция имен полей
      * @param data коллекция данных
      */
-    public void saveFileExcel(String filePath, List<String> headName, List<Object> data) throws IOException, WriteException {
-        // директория для сохранения файлов Excel
-        Path dirOut = Path.of(ProcessingPath.fixDirectoryPath(Path.of(filePath)).toString() + "\\new Files");
-        // Получаем имя файла
-        String fileName = ProcessingPath.getFileName(filePath);
-        // создаем полный пусть с именем нового файла
-        String saveFilePath = dirOut + "\\" + fileName + ".xls";
-
+    public static void saveFileExcel(String filePath, List<Object> data)
+            throws IOException, WriteException {
         // Создаем книгу и рабочий лист
-        WritableWorkbook book = Workbook.createWorkbook(new File(saveFilePath));
-        WritableSheet sheet = book.createSheet(fileName, 0);
-
-        fillWorksheet(sheet, headName);
+        WritableWorkbook book = Workbook.createWorkbook(new File(getNewFileName(filePath)));
+        WritableSheet sheet = book.createSheet(ProcessingPath.getFileName(filePath), 0);
+        // Заполняем рабочий лист
         fillWorksheet(sheet, data);
-
         // Записываем файл
         book.write();
         book.close();
+    }
+
+    /**
+     * возвращаем полный пусть с именем нового файла
+     *
+     * @param filePath Полный путь до прочитанного файла
+     */
+    private static String getNewFileName(String filePath) {
+        return ProcessingPath.fixDirectoryPath(Path.of(filePath)).toString() + "\\new Files"
+                + "\\" + ProcessingPath.getFileName(filePath) + ".xls";
     }
 
     /**
@@ -45,20 +49,14 @@ public class WriterExcel {
      * @param sheet рабочий лист
      * @param data коллекция данных
      */
-    private void fillWorksheet(WritableSheet sheet, List<?> data) throws WriteException {
-        if (data.get(0) instanceof String){
-            for (int i = 0; i < data.size(); i++) {
-            Label label = new Label(i,0, data.get(i).toString()); // Метка (номер столбца, номер строки, содержимое)
-            sheet.addCell(label);
-            }
-        } else {
-            for (int j = 0; j < data.size(); j++) {
-                Object[] rowObjects = (Object[]) data.get(j);
-                for (int k = 0; k < rowObjects.length; k++) {
-                    String dataString = rowObjects[k] == null ? "" : rowObjects[k].toString();
-                    Label label = new Label(k, j + 1, dataString); // Метка (номер столбца, номер строки, содержимое)
-                    sheet.addCell(label);
-                }
+    private static void fillWorksheet(WritableSheet sheet, List<Object> data) throws WriteException {
+        for (int j = 0; j < data.size(); j++) {
+            Object[] rowObjects = (Object[]) data.get(j);
+            for (int k = 0; k < rowObjects.length; k++) {
+                String dataString = rowObjects[k] == null ? "" : rowObjects[k].toString();
+                // label: номер столбца, номер строки, содержимое
+                Label label = new Label(k, j, dataString);
+                sheet.addCell(label);
             }
         }
     }
