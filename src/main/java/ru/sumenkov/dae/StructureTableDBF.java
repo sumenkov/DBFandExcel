@@ -2,9 +2,11 @@ package ru.sumenkov.dae;
 
 import com.linuxense.javadbf.DBFDataType;
 import com.linuxense.javadbf.DBFField;
+import com.linuxense.javadbf.DBFReader;
 import org.ini4j.Wini;
 
 import java.io.*;
+import java.nio.file.Path;
 
 public final class StructureTableDBF {
     private StructureTableDBF() {
@@ -55,24 +57,24 @@ public final class StructureTableDBF {
         }
     }
 
-//    public static void saveStructure(String filePath) throws IOException {
-//        System.out.println("В разработке...");
-//        try (InputStream inputStream = new FileInputStream(filePath)) {
-//            DBFReader reader = new DBFReader(inputStream);
-//            System.out.println("Charset: " + reader.getCharset());
-//
-//            int numberOfFields = reader.getFieldCount();
-//            System.out.println("NumOfColumn: " + reader.getFieldCount());
-//
-//            List<String> headName = new ArrayList<>();
-//            for (int i = 0; i < numberOfFields; i++) {
-//                System.out.println(reader.getField(i).getName());
-//                System.out.println(reader.getField(i).getType());
-//                System.out.println(reader.getField(i).getLength());
-//                System.out.println(reader.getField(i).getDecimalCount());
-//            }
-//        }
-//    }
+    public static void saveStructure(Path filePath) throws IOException {
+        System.out.println("В разработке...");
+        System.out.println(filePath.toFile());
+        try (InputStream inputStream = new FileInputStream(filePath.toFile())) {
+            DBFReader reader = new DBFReader(inputStream);
+            System.out.println("Charset: " + reader.getCharset());
+
+            int numberOfFields = reader.getFieldCount();
+            System.out.println("NumOfColumn: " + reader.getFieldCount());
+
+            for (int i = 0; i < numberOfFields; i++) {
+                System.out.println(reader.getField(i).getName());
+                System.out.println(reader.getField(i).getType());
+                System.out.println(reader.getField(i).getLength());
+                System.out.println(reader.getField(i).getDecimalCount());
+            }
+        }
+    }
 
     /**
      * Спопоставленеи типов

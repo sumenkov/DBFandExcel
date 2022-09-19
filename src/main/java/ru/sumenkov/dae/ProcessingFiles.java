@@ -22,17 +22,30 @@ public final class ProcessingFiles {
      * @param launchARG код агрумента выбора обработки, полученного от пользователя
      */
     public static void processingFiles(Path uploadDir, String launchARG, String charsetName) {
-        try (DirectoryStream<Path> files = Files.newDirectoryStream(uploadDir)) {
-            for (Path file : files) {
-                String substring = file.toString().substring(file.toString().lastIndexOf(".") + 1);
-                if (Files.isRegularFile(file) && substring.equalsIgnoreCase(launchARG)) {
-                    System.out.println("Конвертируем файл: " + file.getFileName());
-                    RunProcessing runProcessing = new RunProcessing(launchARG, file.toString(), charsetName);
-                    new Thread(runProcessing).start();
-                }
+        // Если указан один файл
+        if (Files.isRegularFile(uploadDir)) {
+            String filePath = uploadDir.toFile().toString();
+            String substring = filePath.substring(filePath.lastIndexOf(".") + 1);
+            if (substring.equalsIgnoreCase(launchARG)) {
+                System.out.println("Конвертируем файл: " + uploadDir.getFileName());
+                RunProcessing runProcessing = new RunProcessing(launchARG, filePath, charsetName);
+                new Thread(runProcessing).start();
             }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        }
+        // Если указали директорию
+        else {
+            try (DirectoryStream<Path> files = Files.newDirectoryStream(uploadDir)) {
+                for (Path file : files) {
+                    String substring = file.toString().substring(file.toString().lastIndexOf(".") + 1);
+                    if (Files.isRegularFile(file) && substring.equalsIgnoreCase(launchARG)) {
+                        System.out.println("Конвертируем файл: " + file.getFileName());
+                        RunProcessing runProcessing = new RunProcessing(launchARG, file.toString(), charsetName);
+                        new Thread(runProcessing).start();
+                    }
+                }
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 

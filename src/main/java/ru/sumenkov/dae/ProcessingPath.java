@@ -1,7 +1,7 @@
 package ru.sumenkov.dae;
 
 import java.io.BufferedReader;
-import java.io.IOException;
+import java.io.File;
 import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -32,24 +32,18 @@ public final class ProcessingPath {
      *
      * @param uploadDir Директория расположение файлов DBF
      */
-    public static void createDirectoryToSave(Path uploadDir) throws IOException {
+    public static void createDirectoryToSave(Path uploadDir) {
+        if (!Files.isDirectory(uploadDir)) uploadDir = uploadDir.getParent();
+
         Path dirOut = Path.of(uploadDir.toString() + "\\new Files");
-        if (!Files.exists(dirOut)) {
-           try {
-               Files.createDirectory(dirOut);
-           // нодо обсудить...
-           }catch (java.nio.file.NoSuchFileException e) {
-               System.out.println("Директория с файлами указана не верно, проверти написание пути.");
-               System.exit(0);
-           }
-        }
+        new File(dirOut.toString()).mkdir();
     }
 
     /**
      * Запрашиваем директорию с файлами
      */
     public static Path requestDirectory() throws Exception {
-        System.out.println("Укажите полный путь к директории с файлами:");
+        System.out.println("Укажите полный путь к директории с файлами или к конкретному файлу:");
 
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
             return Path.of(reader.readLine());
