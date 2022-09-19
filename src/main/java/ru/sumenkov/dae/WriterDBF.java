@@ -24,12 +24,14 @@ public final class WriterDBF {
         Path dirOut = Path.of(ProcessingPath.fixDirectoryPath(Path.of(filePath)).toString() + "\\new Files");
         // создаем полный пусть с именем нового файла
         String saveFilePath = dirOut + "\\" + ProcessingPath.getFileName(filePath) + ".dbf";
-
+        // Получаем структуру таблицы
+        Object[] structureTableDBF = StructureTableDBF.tableStructure((Object[]) rowsData.get(0));
         // создадим определения полей
-        DBFField[] fields = StructureTableDBF.tableStructure((Object[]) rowsData.get(0));
-
+        DBFField[] fields = (DBFField[]) structureTableDBF[0];
+        // кодировка для записи данных
+        String charsetName = (String) structureTableDBF[1];
         //записываем файл
-        try (DBFWriter writer = new DBFWriter(new FileOutputStream(saveFilePath), Charset.forName("Cp866"))){
+        try (DBFWriter writer = new DBFWriter(new FileOutputStream(saveFilePath), Charset.forName(charsetName))){
            writer.setFields(fields);
            // теперь заполняем DBFWriter
            for (Object rowData: rowsData.subList(1, rowsData.size())) {

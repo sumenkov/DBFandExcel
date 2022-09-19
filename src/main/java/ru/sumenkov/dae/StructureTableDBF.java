@@ -16,11 +16,18 @@ public final class StructureTableDBF {
      * Описания структуры DBF таблицы
      *
      * @param namesOfColumns имена столбцов, первая строка из файла Excel
-     *
-     * @return Спецификация полей в файле DBF
+     * @return Спецификация полей в файле DBF и кодировка для записи, указанная в .ini
      */
-    public static DBFField[] tableStructure(Object[] namesOfColumns) {
+    public static Object[] tableStructure(Object[] namesOfColumns) {
         try {
+//            Раскоментировать для сборки JAR файла:
+//                File currentDirectory = new File(new File(Main.class
+//                    .getProtectionDomain()
+//                    .getCodeSource()
+//                    .getLocation()
+//                    .toURI()).getParent());
+//            Wini ini = new Wini(new File(currentDirectory + "\\StructureTableDBF.ini"));
+
             Wini ini = new Wini(new File("StructureTableDBF.ini"));
             int numberOfColumns = ini.get("NUMBER_OF_COLUMNS", "NUMBER", int.class);
 
@@ -38,8 +45,13 @@ public final class StructureTableDBF {
                 }
             }
 
-            return fields;
+            Object[] result = new Object[2];
+            result[0] = fields;
+            result[1] = ini.get("ENCODING","CHARSET", String.class);
 
+            return result;
+//      Раскоментировать для сборки JAR файла:
+//        } catch (IOException | URISyntaxException e) {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
