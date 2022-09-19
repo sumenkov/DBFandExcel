@@ -26,13 +26,13 @@ public final class WriterDBF {
         String saveFilePath = dirOut + "\\" + ProcessingPath.getFileName(filePath) + ".dbf";
 
         // создадим определения полей
-        DBFField[] fields = StructureTableDBF.tableStructure();
+        DBFField[] fields = StructureTableDBF.tableStructure((Object[]) rowsData.get(0));
 
         //записываем файл
         try (DBFWriter writer = new DBFWriter(new FileOutputStream(saveFilePath), Charset.forName("Cp866"))){
            writer.setFields(fields);
            // теперь заполняем DBFWriter
-           for (Object rowData: rowsData) {
+           for (Object rowData: rowsData.subList(1, rowsData.size())) {
                writer.addRecord((Object[]) rowData);
            }
         }

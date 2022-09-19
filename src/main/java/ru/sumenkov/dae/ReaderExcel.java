@@ -29,8 +29,8 @@ public final class ReaderExcel {
         int rows = sheet.getRows();
         int columns = sheet.getColumns();
         List<Object> rowsData = new ArrayList<>();
-        for (int i = 1; i < rows; i++) { // Начинаем не с 0 строки, а с 1. Пропускаем заголовки таблиц
-            Object[] rowData = new Object[StructureTableDBF.NUMBER_OF_COLUMNS];
+        for (int i = 0; i < rows; i++) {
+            Object[] rowData = new Object[columns];
             for (int j = 0; j < columns; j++) {
                 rowData[j] = sheet.getCell(j, i).getContents();
             }

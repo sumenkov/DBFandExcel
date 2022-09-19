@@ -2,69 +2,64 @@ package ru.sumenkov.dae;
 
 import com.linuxense.javadbf.DBFDataType;
 import com.linuxense.javadbf.DBFField;
+import org.ini4j.Wini;
+
+import java.io.File;
+import java.io.IOException;
 
 public final class StructureTableDBF {
     private StructureTableDBF() {
         throw new AssertionError("Instantiating StructureTableDBF class");
     }
-    public static final int NUMBER_OF_COLUMNS = 10;
 
     /**
      * Описания структуры DBF таблицы
+     *
+     * @param namesOfColumns имена столбцов, первая строка из файла Excel
+     *
+     * @return Спецификация полей в файле DBF
      */
-    public static DBFField[] tableStructure() {
-        DBFField[] fields = new DBFField[NUMBER_OF_COLUMNS];
+    public static DBFField[] tableStructure(Object[] namesOfColumns) {
+        try {
+            Wini ini = new Wini(new File("StructureTableDBF.ini"));
+            int numberOfColumns = ini.get("NUMBER_OF_COLUMNS", "NUMBER", int.class);
 
-        fields[0] = new DBFField();
-        fields[0].setName("OUT");
-        fields[0].setType(DBFDataType.CHARACTER);
-        fields[0].setLength(1);
+            DBFField[] fields = new DBFField[numberOfColumns];
 
-        fields[1] = new DBFField();
-        fields[1].setName("FINISH");
-        fields[1].setType(DBFDataType.CHARACTER);
-        fields[1].setLength(1);
+            for (int i = 0; i < numberOfColumns; i++) {
+                String field = "FIELD_" + (i + 1);
+                fields[i] = new DBFField();
+                fields[i].setName(namesOfColumns[i].toString());
+                fields[i].setType(typeMatching(ini.get(field,"TYPE", String.class)));
+                fields[i].setLength(ini.get(field, "LENGTH", int.class));
 
-        fields[2] = new DBFField();
-        fields[2].setName("GROUP");
-        fields[2].setType(DBFDataType.CHARACTER);
-        fields[2].setLength(20);
+                if (!ini.get(field, "DECIMAL_COUNT").equals("")) {
+                    fields[i].setDecimalCount(ini.get(field, "DECIMAL_COUNT", int.class));
+                }
+            }
 
-        fields[3] = new DBFField();
-        fields[3].setName("FAM");
-        fields[3].setType(DBFDataType.CHARACTER);
-        fields[3].setLength(40);
+            return fields;
 
-        fields[4] = new DBFField();
-        fields[4].setName("NAME");
-        fields[4].setType(DBFDataType.CHARACTER);
-        fields[4].setLength(30);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
-        fields[5] = new DBFField();
-        fields[5].setName("OTCH");
-        fields[5].setType(DBFDataType.CHARACTER);
-        fields[5].setLength(30);
-
-        fields[6] = new DBFField();
-        fields[6].setName("VUZ");
-        fields[6].setType(DBFDataType.CHARACTER);
-        fields[6].setLength(50);
-
-        fields[7] = new DBFField();
-        fields[7].setName("ANKETA");
-        fields[7].setType(DBFDataType.CHARACTER);
-        fields[7].setLength(50);
-
-        fields[8] = new DBFField();
-        fields[8].setName("VUZ_ID");
-        fields[8].setType(DBFDataType.CHARACTER);
-        fields[8].setLength(40);
-
-        fields[9] = new DBFField();
-        fields[9].setName("PERSON_ID");
-        fields[9].setType(DBFDataType.CHARACTER);
-        fields[9].setLength(50);
-
-        return fields;
+    /**
+     * Спопоставленеи типов
+     *
+     * @param type наименование типа из файла .ini
+     *
+     * @return тип в формате DBFDataType
+     */
+    private static DBFDataType typeMatching(String type) {
+        return switch (type) {
+            case "CHARACTER" -> DBFDataType.CHARACTER;
+            case "NUMERIC" -> DBFDataType.NUMERIC;
+            case "FLOATING_POINT" -> DBFDataType.FLOATING_POINT;
+            case "LOGICAL" -> DBFDataType.LOGICAL;
+            case "DATE" -> DBFDataType.DATE;
+            default -> throw new IllegalStateException("Unexpected value");
+        };
     }
 }
