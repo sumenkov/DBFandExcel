@@ -7,6 +7,8 @@
 
 --exceltodbf - для конвертации Excel таблиц в DBF
 
-После указания аргумента можно сразу добавить путь до директории с файлами, или сделать это позднее.
+После указания аргумента можно сразу добавить кодировку для чтения из DBF:
 
-    java -jar DBFandExcel.jar --dbftoexcel C:\Users\user\DBFfiles
+    java -jar DBFandExcel.jar --dbftoexcel windows-1251
+
+По умолчанию используется кодировка CP866 (IBM866), она же DOS

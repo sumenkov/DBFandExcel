@@ -25,7 +25,7 @@ public final class WriterDBF {
         // создаем полный пусть с именем нового файла
         String saveFilePath = dirOut + "\\" + ProcessingPath.getFileName(filePath) + ".dbf";
         // Получаем структуру таблицы
-        Object[] structureTableDBF = StructureTableDBF.tableStructure((Object[]) rowsData.get(0));
+        Object[] structureTableDBF = StructureTableDBF.readStructure((Object[]) rowsData.get(0));
         // создадим определения полей
         DBFField[] fields = (DBFField[]) structureTableDBF[0];
         // кодировка для записи данных

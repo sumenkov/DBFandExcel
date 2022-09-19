@@ -15,8 +15,10 @@ public class Main {
                             --dbftoexcel - для конвертации DBF таблиц в Excel
                             --exceltodbf - для конвертации Excel таблиц в DBF
                                                         
-                            После указания аргумента можно сразу добавить путь до директории с файлами, или сделать это позднее.
-                            Пример: java -jar DBFandExcel.jar --dbftoexcel C:\\Users\\user\\DFBfiles""");
+                            После указания аргумента можно сразу добавить кодировку для чтения из DBF:
+                            Пример: java -jar DBFandExcel.jar --dbftoexcel IBM866
+                            
+                            По умолчанию используется кодировка CP866 (IBM866), она же DOS""");
                     System.exit(0);
                 }
             }
@@ -25,9 +27,11 @@ public class Main {
             System.exit(0);
         }
 
-        Path uploadDir = (args.length > 1) ? ProcessingPath.fixDirectoryPath(Path.of(args[1])) : ProcessingPath.requestDirectory();
+        String charsetName = (args.length > 1) ? args[1] : "IBM866";
+
+        Path uploadDir = ProcessingPath.requestDirectory();
         ProcessingPath.createDirectoryToSave(uploadDir);
 
-        ProcessingFiles.processingFiles(uploadDir, launchARG);
+        ProcessingFiles.processingFiles(uploadDir, launchARG, charsetName);
     }
 }

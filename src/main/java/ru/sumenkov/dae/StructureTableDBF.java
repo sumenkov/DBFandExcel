@@ -4,8 +4,7 @@ import com.linuxense.javadbf.DBFDataType;
 import com.linuxense.javadbf.DBFField;
 import org.ini4j.Wini;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 
 public final class StructureTableDBF {
     private StructureTableDBF() {
@@ -18,7 +17,7 @@ public final class StructureTableDBF {
      * @param namesOfColumns имена столбцов, первая строка из файла Excel
      * @return Спецификация полей в файле DBF и кодировка для записи, указанная в .ini
      */
-    public static Object[] tableStructure(Object[] namesOfColumns) {
+    public static Object[] readStructure(Object[] namesOfColumns) {
         try {
 //            Раскоментировать для сборки JAR файла:
 //                File currentDirectory = new File(new File(Main.class
@@ -40,9 +39,8 @@ public final class StructureTableDBF {
                 fields[i].setType(typeMatching(ini.get(field,"TYPE", String.class)));
                 fields[i].setLength(ini.get(field, "LENGTH", int.class));
 
-                if (!ini.get(field, "DECIMAL_COUNT").equals("")) {
-                    fields[i].setDecimalCount(ini.get(field, "DECIMAL_COUNT", int.class));
-                }
+                int decimalCount = ini.get(field, "DECIMAL_COUNT", int.class);
+                if (decimalCount != 0) fields[i].setDecimalCount(decimalCount);
             }
 
             Object[] result = new Object[2];
@@ -56,6 +54,25 @@ public final class StructureTableDBF {
             throw new RuntimeException(e);
         }
     }
+
+//    public static void saveStructure(String filePath) throws IOException {
+//        System.out.println("В разработке...");
+//        try (InputStream inputStream = new FileInputStream(filePath)) {
+//            DBFReader reader = new DBFReader(inputStream);
+//            System.out.println("Charset: " + reader.getCharset());
+//
+//            int numberOfFields = reader.getFieldCount();
+//            System.out.println("NumOfColumn: " + reader.getFieldCount());
+//
+//            List<String> headName = new ArrayList<>();
+//            for (int i = 0; i < numberOfFields; i++) {
+//                System.out.println(reader.getField(i).getName());
+//                System.out.println(reader.getField(i).getType());
+//                System.out.println(reader.getField(i).getLength());
+//                System.out.println(reader.getField(i).getDecimalCount());
+//            }
+//        }
+//    }
 
     /**
      * Спопоставленеи типов

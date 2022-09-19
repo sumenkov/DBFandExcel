@@ -19,23 +19,21 @@ public final class ReaderDBF {
      * @return массив данных, полученных из файла
      */
 
-    public static List<Object> readDBF(String filePath) {
+    public static List<Object> readDBF(String filePath, String charsetName) {
         try (InputStream inputStream = new FileInputStream(filePath)) {
-            DBFReader reader = new DBFReader(inputStream, Charset.forName("Cp866"));
-
+            DBFReader reader = new DBFReader(inputStream, Charset.forName(charsetName));
             // Собираем насвание столбцов
             int numberOfFields = reader.getFieldCount();
             List<String> headName = new ArrayList<>();
             for (int i = 0; i < numberOfFields; i++) {
                 headName.add(reader.getField(i).getName());
             }
-
+            // Создаем массив для хранения данных
             List<Object> data = new ArrayList<>();
             // Добавляем заголовки столбцов
             data.add(headName.toArray());
-
+            // Чтение данных и добавление их в массив
             Object[] rowObjects;
-            // Чтение данных
             while ((rowObjects = reader.nextRecord ()) != null) {
                 data.add(rowObjects);
             }

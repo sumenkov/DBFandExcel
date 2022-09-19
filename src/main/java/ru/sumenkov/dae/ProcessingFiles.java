@@ -21,13 +21,13 @@ public final class ProcessingFiles {
      * @param uploadDir Директория расположения файлов DBF
      * @param launchARG код агрумента выбора обработки, полученного от пользователя
      */
-    public static void processingFiles(Path uploadDir, String launchARG) {
+    public static void processingFiles(Path uploadDir, String launchARG, String charsetName) {
         try (DirectoryStream<Path> files = Files.newDirectoryStream(uploadDir)) {
             for (Path file : files) {
                 String substring = file.toString().substring(file.toString().lastIndexOf(".") + 1);
                 if (Files.isRegularFile(file) && substring.equalsIgnoreCase(launchARG)) {
                     System.out.println("Конвертируем файл: " + file.getFileName());
-                    RunProcessing runProcessing = new RunProcessing(launchARG, file.toString());
+                    RunProcessing runProcessing = new RunProcessing(launchARG, file.toString(), charsetName);
                     new Thread(runProcessing).start();
                 }
             }
@@ -42,13 +42,13 @@ public final class ProcessingFiles {
      * @param launchARG код агрумента выбора обработки, полученного от пользователя
      * @param filePath полный путь файла
      */
-    private record RunProcessing(String launchARG, String filePath) implements Runnable {
+    private record RunProcessing(String launchARG, String filePath, String charsetName) implements Runnable {
         @Override
         public void run() {
             try {
                 switch (launchARG) {
                     case "dbf" -> {
-                        List<Object> dataDBF = ReaderDBF.readDBF(filePath);
+                        List<Object> dataDBF = ReaderDBF.readDBF(filePath, charsetName);
                         WriterExcel.saveFileExcel(filePath, dataDBF);
                     }
                     case "xls" -> {
