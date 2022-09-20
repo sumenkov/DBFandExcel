@@ -63,8 +63,7 @@ public final class StructureTableDBF {
      * @param filePath полный путь до файла
      */
     public static void saveStructure(Path filePath) throws IOException {
-        System.out.println("В разработке...");
-        System.out.println(filePath.toFile());
+        System.out.println("Обрабатываем файл: " + filePath.toFile());
         try (InputStream inputStream = new FileInputStream(filePath.toFile())) {
             DBFReader reader = new DBFReader(inputStream);
             // Количество столбцов в таблице
@@ -94,6 +93,7 @@ public final class StructureTableDBF {
                 ini.put(field, "DECIMAL_COUNT", reader.getField(i).getDecimalCount());
                 ini.store();
             }
+            System.out.println("Файл сохранен под именем: " + newName);
 //        Раскоментировать для сборки JAR файла:
 //        } catch (IOException | URISyntaxException e) {
 //            throw new RuntimeException(e);
