@@ -7,6 +7,8 @@
 
 --exceltodbf - для конвертации Excel таблиц в DBF
 
+--saveStructureDBF - сохранение спецификация файла DBF в .ini
+
 После указания аргумента можно сразу добавить кодировку для чтения из DBF:
 
     java -jar DBFandExcel.jar --dbftoexcel windows-1251

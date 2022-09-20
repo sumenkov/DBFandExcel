@@ -18,7 +18,7 @@ public class Main {
                             Доступные агрументы запуска:
                             --dbftoexcel - для конвертации DBF таблиц в Excel
                             --exceltodbf - для конвертации Excel таблиц в DBF
-                            --saveStructureDBF - сохранение спецификация полей в файла DBF
+                            --saveStructureDBF - сохранение спецификация файла DBF в .ini
                                                         
                             После указания аргумента можно сразу добавить кодировку для чтения из DBF:
                             Пример: java -jar DBFandExcel.jar --dbftoexcel IBM866
