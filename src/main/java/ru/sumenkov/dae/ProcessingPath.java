@@ -43,7 +43,7 @@ public final class ProcessingPath {
     /**
      * Запрашиваем директорию с файлами
      */
-    public static Path requestDirectory() throws Exception {
+    public static Path requestPath() throws Exception {
         System.out.println("Укажите полный путь к директории с файлами или к конкретному файлу:");
 
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {

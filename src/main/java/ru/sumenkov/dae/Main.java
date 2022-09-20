@@ -11,7 +11,12 @@ public class Main {
                 case "--dbftoexcel" -> launchARG = "dbf";
                 case "--exceltodbf" -> launchARG = "xls";
                 case "--saveStructureDBF" -> {
-                    StructureTableDBF.saveStructure(ProcessingPath.requestDirectory());
+                    // Проверяем наличие аргумента с указанием пути до файла или директории
+                    int findPath = Arrays.asList(args).indexOf("--path");
+                    Path filePath = (findPath > 0) ? Path.of(args[findPath + 1]) : ProcessingPath.requestPath();
+                    // Обработка файла
+                    StructureTableDBF.saveStructure(filePath);
+                    // Закрываем программу
                     System.exit(0);
                 }
                 default -> {
@@ -37,7 +42,7 @@ public class Main {
             String charsetName = (findCharset > 0) ? args[findCharset + 1] : "IBM866";
             // Проверяем наличие аргумента с указанием пути до файла или директории
             int findPath = Arrays.asList(args).indexOf("--path");
-            Path uploadDir = (findPath > 0) ? Path.of(args[findPath + 1]) : ProcessingPath.requestDirectory();
+            Path uploadDir = (findPath > 0) ? Path.of(args[findPath + 1]) : ProcessingPath.requestPath();
             // Создаем директорию для сохранения новых файлов
             ProcessingPath.createDirectoryToSave(uploadDir);
             // Запускаем обработку
