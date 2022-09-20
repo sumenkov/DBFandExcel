@@ -6,6 +6,7 @@ import com.linuxense.javadbf.DBFReader;
 import org.ini4j.Wini;
 
 import java.io.*;
+import java.net.URISyntaxException;
 import java.nio.file.Path;
 
 public final class StructureTableDBF {
@@ -21,15 +22,14 @@ public final class StructureTableDBF {
      */
     public static Object[] readStructure(Object[] namesOfColumns) {
         try {
-//            Раскоментировать для сборки JAR файла:
-//            File currentDirectory = new File(new File(Main.class
-//                .getProtectionDomain()
-//                .getCodeSource()
-//                .getLocation()
-//                .toURI()).getParent());
-//            Wini ini = new Wini(new File(currentDirectory + "\\StructureTableDBF.ini"));
+//          Получаем путь нахождения JAR файла:
+            File currentDirectory = new File(new File(Main.class
+                .getProtectionDomain()
+                .getCodeSource()
+                .getLocation()
+                .toURI()).getParent());
+            Wini ini = new Wini(new File(currentDirectory + "\\StructureTableDBF.ini"));
 
-            Wini ini = new Wini(new File("StructureTableDBF.ini"));
             int numberOfColumns = ini.get("NUMBER_OF_COLUMNS", "NUMBER", int.class);
 
             DBFField[] fields = new DBFField[numberOfColumns];
@@ -50,9 +50,7 @@ public final class StructureTableDBF {
             result[1] = ini.get("ENCODING","CHARSET", String.class);
 
             return result;
-//      Раскоментировать для сборки JAR файла:
-//        } catch (IOException | URISyntaxException e) {
-        } catch (IOException e) {
+        } catch (IOException | URISyntaxException e) {
             throw new RuntimeException(e);
         }
     }
@@ -62,25 +60,21 @@ public final class StructureTableDBF {
      *
      * @param filePath полный путь до файла
      */
-    public static void saveStructure(Path filePath) throws IOException {
+    public static void saveStructure(Path filePath) {
         System.out.println("Обрабатываем файл: " + filePath.toFile());
         try (InputStream inputStream = new FileInputStream(filePath.toFile())) {
             DBFReader reader = new DBFReader(inputStream);
             // Количество столбцов в таблице
             int numberOfFields = reader.getFieldCount();
+            File currentDirectory = new File(new File(Main.class
+                .getProtectionDomain()
+                .getCodeSource()
+                .getLocation()
+                .toURI()).getParent());
             // Имя нового файла
-            String newName = String.valueOf(new File(filePath.getFileName() + ".ini"));
+            String newName = String.valueOf(new File(currentDirectory + "\\" + filePath.getFileName() + ".ini"));
             // Создаем файл в который запишем данные
             new File(newName).createNewFile();
-//
-//            Раскоментировать для сборки JAR файла:
-//                File currentDirectory = new File(new File(Main.class
-//                    .getProtectionDomain()
-//                    .getCodeSource()
-//                    .getLocation()
-//                    .toURI()).getParent());
-//            Wini ini = new Wini(new File(currentDirectory + newName));
-//
             // Записываем полученную структуру DBF
             Wini ini = new Wini(new File(newName));
             ini.put("ENCODING", "CHARSET", reader.getCharset());
@@ -94,10 +88,8 @@ public final class StructureTableDBF {
                 ini.store();
             }
             System.out.println("Файл сохранен под именем: " + newName);
-//        Раскоментировать для сборки JAR файла:
-//        } catch (IOException | URISyntaxException e) {
-//            throw new RuntimeException(e);
-//        }
+        } catch (IOException | URISyntaxException e) {
+            throw new RuntimeException(e);
         }
     }
 
