@@ -21,12 +21,12 @@ public class Main {
                             --exceltodbf - для конвертации Excel таблиц в DBF
                             --saveStructureDBF - сохранение спецификация файла DBF в .ini
                             
-                            дополнительные аргументы:
+                            дополнительные аргументы (не обязательные):
                             --charset - кодировка для чтения DBF
                             --path - путь до файла или директории
                                                         
                             После указания аргумента можно сразу добавить кодировку для чтения из DBF:
-                            Пример: java -jar DBFandExcel.jar --dbftoexcel --charset IBM866
+                            Пример: java -jar DBFandExcel.jar --dbftoexcel --charset IBM866 --path  C:\\Files_DBF
                             
                             По умолчанию используется кодировка CP866 (IBM866), она же DOS""");
                     System.exit(0);
