@@ -9,8 +9,15 @@
 
 --saveStructureDBF - сохранение спецификация файла DBF в .ini
 
+
+дополнительные аргументы:
+
+--charset - кодировка для чтения DBF
+
+--path - путь до файла или директории
+
 После указания аргумента можно сразу добавить кодировку для чтения из DBF:
 
-    java -jar DBFandExcel.jar --dbftoexcel windows-1251
+    java -jar DBFandExcel.jar --dbftoexcel --charset windows-1251
 
 По умолчанию используется кодировка CP866 (IBM866), она же DOS
