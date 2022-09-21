@@ -13,7 +13,7 @@ public class ParametersChecking {
     /**
      * Обрабатываем аргументы запуска программы
      *
-     * @param args Директория расположения файлов DBF
+     * @param args аргументы запуска программы
      *
      * @return: fileExtension - расширение файла, который планируем конвертировать
      *          charsetName - кодировка для чтения файла DBF
