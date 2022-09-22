@@ -9,7 +9,7 @@ public final class readStructureDBF {
     }
 
     /**
-     * Описания структуры DBF таблицы
+     * Вычитываем описания структуры DBF таблицы
      *
      * @param headlinesOfColumns заголовки столбцов, первая строка из файла Excel
      * @return Спецификация полей в файле DBF и кодировка для записи, указанная в .ini
