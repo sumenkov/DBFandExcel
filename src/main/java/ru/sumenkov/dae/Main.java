@@ -25,7 +25,7 @@ public class Main {
                 StructureTableDBF.saveStructure(uploadDir);
             } else if (launchOptions.hasOption("help")) {
                 HelpFormatter formatter = new HelpFormatter();
-                formatter.printHelp("ant", options, true);
+                formatter.printHelp("DBFandExcel", options, true);
             }
 
             if (fileExtension != null)
