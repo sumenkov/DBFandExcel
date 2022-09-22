@@ -26,7 +26,11 @@ public final class ReaderDBF {
             int numberOfFields = reader.getFieldCount();
             List<String> headName = new ArrayList<>();
             for (int i = 0; i < numberOfFields; i++) {
-                headName.add(reader.getField(i).getName());
+                String head = reader.getField(i).getName() + ","
+                            + typeMatching(String.valueOf(reader.getField(i).getType())) + ","
+                            + reader.getField(i).getLength() + ","
+                            + reader.getField(i).getDecimalCount();
+                headName.add(head);
             }
             // Создаем массив для хранения данных
             List<Object> data = new ArrayList<>();
@@ -43,5 +47,36 @@ public final class ReaderDBF {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    /**
+     * Спопоставленеи типов
+     *
+     * @param type наименование типа из файла DBF
+     *
+     * @return тип в виде символа
+     */
+    private static String typeMatching(String type) {
+        return switch (type) {
+            case "CHARACTER" -> "C";
+            case "NUMERIC" -> "N";
+            case "FLOATING_POINT" -> "F";
+            case "LOGICAL" -> "L";
+            case "DATE" -> "D";
+            case "CURRENCY" -> "Y";
+            case "LONG" -> "I";
+            case "TIMESTAMP" -> "T";
+            case "TIMESTAMP_DBASE7" -> "@";
+            case "AUTOINCREMENT" -> "+";
+            case "MEMO" -> "M";
+            case "BINARY" -> "B";
+            case "BLOB" -> "W";
+            case "GENERAL_OLE" -> "G";
+            case "PICTURE" -> "P";
+            case "VARBINARY" -> "Q";
+            case "VARCHAR" -> "V";
+            case "DOUBLE" -> "O";
+            default -> throw new IllegalStateException("Неожиданное значение");
+        };
     }
 }

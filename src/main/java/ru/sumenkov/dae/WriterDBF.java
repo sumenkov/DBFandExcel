@@ -19,17 +19,13 @@ public final class WriterDBF {
      * @param filePath Полный путь до прочитанного файла
      * @param rowsData коллекция данных
      */
-    public static void saveFileDBF(String filePath, List<Object> rowsData) throws IOException {
+    public static void saveFileDBF(String filePath, List<Object> rowsData, String charsetName) throws IOException {
         // Получаем директорию для сохранения файлов Excel
         Path dirOut = Path.of(ProcessingPath.fixDirectoryPath(Path.of(filePath)).toString() + "\\new Files");
         // создаем полный пусть с именем нового файла
         String saveFilePath = dirOut + "\\" + ProcessingPath.getFileName(filePath) + ".dbf";
-        // Получаем структуру таблицы
-        Object[] structureTableDBF = StructureTableDBF.readStructure((Object[]) rowsData.get(0));
-        // создадим определения полей
-        DBFField[] fields = (DBFField[]) structureTableDBF[0];
-        // кодировка для записи данных
-        String charsetName = (String) structureTableDBF[1];
+        // Получаем структуру таблицы и создадим определения полей
+        DBFField[] fields = readStructureDBF.readStructure((Object[]) rowsData.get(0));
         //записываем файл
         try (DBFWriter writer = new DBFWriter(new FileOutputStream(saveFilePath), Charset.forName(charsetName))){
            writer.setFields(fields);

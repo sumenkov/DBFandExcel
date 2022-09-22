@@ -68,7 +68,7 @@ public final class ProcessingFiles {
                     }
                     case "xls" -> {
                         List<Object> dataExcel = ReaderExcel.readExcel(filePath);
-                        WriterDBF.saveFileDBF(filePath, dataExcel);
+                        WriterDBF.saveFileDBF(filePath, dataExcel, charsetName);
                     }
                 }
             } catch (BiffException | WriteException | IOException e) {

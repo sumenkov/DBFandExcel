@@ -21,8 +21,6 @@ public class Main {
                 fileExtension = "dbf";
             } else if (launchOptions.hasOption("exceltodbf")) {
                 fileExtension = "xls";
-            } else if (launchOptions.hasOption("saveStructureDBF")) {
-                StructureTableDBF.saveStructure(uploadDir);
             } else if (launchOptions.hasOption("help")) {
                 HelpFormatter formatter = new HelpFormatter();
                 formatter.printHelp("DBFandExcel", options, true);
