@@ -19,16 +19,18 @@ public final class ProcessingFiles {
      * Собираем и обрабатываем файлы
      *
      * @param uploadDir Директория расположения файлов DBF
-     * @param launchARG код агрумента выбора обработки, полученного от пользователя
+     * @param fileExtension код агрумента выбора обработки, полученного от пользователя
      */
-    public static void processingFiles(Path uploadDir, String launchARG, String charsetName) {
+    public static void processingFiles(Path uploadDir, String fileExtension, String charsetName) {
+        // Создаем директорию для сохранения новых файлов
+        ProcessingPath.createDirectoryToSave(uploadDir);
         // Если указан один файл
         if (Files.isRegularFile(uploadDir)) {
             String filePath = uploadDir.toFile().toString();
             String substring = filePath.substring(filePath.lastIndexOf(".") + 1);
-            if (substring.equalsIgnoreCase(launchARG)) {
+            if (substring.equalsIgnoreCase(fileExtension)) {
                 System.out.println("Конвертируем файл: " + uploadDir.getFileName());
-                RunProcessing runProcessing = new RunProcessing(launchARG, filePath, charsetName);
+                RunProcessing runProcessing = new RunProcessing(fileExtension, filePath, charsetName);
                 new Thread(runProcessing).start();
             }
         }
@@ -37,9 +39,9 @@ public final class ProcessingFiles {
             try (DirectoryStream<Path> files = Files.newDirectoryStream(uploadDir)) {
                 for (Path file : files) {
                     String substring = file.toString().substring(file.toString().lastIndexOf(".") + 1);
-                    if (Files.isRegularFile(file) && substring.equalsIgnoreCase(launchARG)) {
+                    if (Files.isRegularFile(file) && substring.equalsIgnoreCase(fileExtension)) {
                         System.out.println("Конвертируем файл: " + file.getFileName());
-                        RunProcessing runProcessing = new RunProcessing(launchARG, file.toString(), charsetName);
+                        RunProcessing runProcessing = new RunProcessing(fileExtension, file.toString(), charsetName);
                         new Thread(runProcessing).start();
                     }
                 }
@@ -52,14 +54,14 @@ public final class ProcessingFiles {
     /**
      * Обработка каждого файла в отдельном потоке
      *
-     * @param launchARG код агрумента выбора обработки, полученного от пользователя
+     * @param fileExtension код агрумента выбора обработки, полученного от пользователя
      * @param filePath полный путь файла
      */
-    private record RunProcessing(String launchARG, String filePath, String charsetName) implements Runnable {
+    private record RunProcessing(String fileExtension, String filePath, String charsetName) implements Runnable {
         @Override
         public void run() {
             try {
-                switch (launchARG) {
+                switch (fileExtension) {
                     case "dbf" -> {
                         List<Object> dataDBF = ReaderDBF.readDBF(filePath, charsetName);
                         WriterExcel.saveFileExcel(filePath, dataDBF);

@@ -1,19 +1,38 @@
 package ru.sumenkov.dae;
 
+import org.apache.commons.cli.*;
+
 import java.nio.file.Path;
-import java.util.Map;
 
 public class Main {
     public static void main(String[] args)  {
         try {
-            // Проверяем параметры запуска
-            Map<String, String> parameters = ParametersChecking.parametersChecking(args);
-            // Преобразуем путь до файла в Path
-            Path uploadDir = Path.of(parameters.get("uploadDir"));
-            // Создаем директорию для сохранения новых файлов
-            ProcessingPath.createDirectoryToSave(uploadDir);
-            // Запускаем обработку
-            ProcessingFiles.processingFiles(uploadDir, parameters.get("fileExtension"), parameters.get("charsetName"));
+            CommandLineParser commandLineParser = new DefaultParser();
+            Options options = LaunchOptions.launchOptions();
+            CommandLine launchOptions = commandLineParser.parse(options, args);
+
+            String fileExtension = null;
+            String charsetName = (launchOptions.hasOption("charset")) ?
+                    launchOptions.getOptionValue("charset") : "IBM866";
+            Path uploadDir = (launchOptions.hasOption("path")) ?
+                    Path.of(launchOptions.getOptionValue("path")) : ProcessingPath.requestPath();
+            
+            if (launchOptions.hasOption("dbftoexcel")) {
+                fileExtension = "dbf";
+            } else if (launchOptions.hasOption("exceltodbf")) {
+                fileExtension = "xls";
+            } else if (launchOptions.hasOption("saveStructureDBF")) {
+                StructureTableDBF.saveStructure(uploadDir);
+            } else if (launchOptions.hasOption("help")) {
+                HelpFormatter formatter = new HelpFormatter();
+                formatter.printHelp("ant", options, true);
+            }
+
+            if (fileExtension != null)
+                ProcessingFiles.processingFiles(uploadDir, fileExtension, charsetName);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Invalid arguments");
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
