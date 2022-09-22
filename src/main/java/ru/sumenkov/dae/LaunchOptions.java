@@ -4,9 +4,6 @@ package ru.sumenkov.dae;
 import org.apache.commons.cli.*;
 
 public class LaunchOptions {
-
-
-
     /**
      * Обрабатываем аргументы запуска программы
      *
