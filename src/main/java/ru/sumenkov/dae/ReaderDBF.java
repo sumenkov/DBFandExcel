@@ -19,7 +19,7 @@ public final class ReaderDBF {
      * @return массив данных, полученных из файла
      */
 
-    public static List<Object> readDBF(String filePath, String charsetName) {
+    public static List<Object> readDBF(String filePath, String charsetName) throws IOException {
         try (InputStream inputStream = new FileInputStream(filePath)) {
             DBFReader reader = new DBFReader(inputStream, Charset.forName(charsetName));
             // Собираем насвание столбцов
@@ -43,9 +43,6 @@ public final class ReaderDBF {
             }
 
             return data;
-
-        } catch (IOException e) {
-            throw new RuntimeException(e);
         }
     }
 

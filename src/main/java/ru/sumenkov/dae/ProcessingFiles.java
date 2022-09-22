@@ -21,7 +21,7 @@ public final class ProcessingFiles {
      * @param uploadDir Директория расположения файлов DBF
      * @param fileExtension код агрумента выбора обработки, полученного от пользователя
      */
-    public static void processingFiles(Path uploadDir, String fileExtension, String charsetName) {
+    public static void processingFiles(Path uploadDir, String fileExtension, String charsetName) throws IOException {
         // Создаем директорию для сохранения новых файлов
         ProcessingPath.createDirectoryToSave(uploadDir);
         // Если указан один файл
@@ -45,8 +45,6 @@ public final class ProcessingFiles {
                         new Thread(runProcessing).start();
                     }
                 }
-            } catch (IOException e) {
-                throw new RuntimeException(e);
             }
         }
     }

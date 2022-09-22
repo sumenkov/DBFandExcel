@@ -21,8 +21,7 @@ public final class WriterExcel {
      * @param filePath Полный путь до прочитанного файла
      * @param data коллекция данных
      */
-    public static void saveFileExcel(String filePath, List<Object> data)
-            throws IOException, WriteException {
+    public static void saveFileExcel(String filePath, List<Object> data) throws IOException, WriteException {
         // Создаем книгу и рабочий лист
         WritableWorkbook book = Workbook.createWorkbook(new File(getNewFileName(filePath)));
         WritableSheet sheet = book.createSheet(ProcessingPath.getFileName(filePath), 0);

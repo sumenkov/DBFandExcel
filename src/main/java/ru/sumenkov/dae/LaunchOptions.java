@@ -4,16 +4,15 @@ package ru.sumenkov.dae;
 import org.apache.commons.cli.*;
 
 public class LaunchOptions {
-    private LaunchOptions() {
-        throw new AssertionError("Instantiating ParametersChecking class.");
-    }
+
+
 
     /**
      * Обрабатываем аргументы запуска программы
      *
      * @return параметры запуска
      */
-    public static Options launchOptions() {
+    public Options launchOptions() {
         OptionGroup optionGroup = new OptionGroup();
         optionGroup.addOption(new Option("d", "dbftoexcel", false, "Конвертация DBF таблиц в Excel"));
         optionGroup.addOption(new Option("e", "exceltodbf", false, "Конвертация Excel таблиц в DBF"));
