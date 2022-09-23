@@ -33,9 +33,9 @@ public final class ProcessingPath {
      * @param uploadDir Директория расположение файлов DBF
      */
     public static void createDirectoryToSave(Path uploadDir) {
-        // Если путь до файла, берем директори в которой он лежит
+        // Если путь до файла, берем каталог в котором он лежит
         if (!Files.isDirectory(uploadDir)) uploadDir = uploadDir.getParent();
-        // Создаем новую диреторию
+        // Создаем новый каталог
         Path dirOut = Path.of(uploadDir.toString() + "\\new Files");
         new File(dirOut.toString()).mkdir();
     }

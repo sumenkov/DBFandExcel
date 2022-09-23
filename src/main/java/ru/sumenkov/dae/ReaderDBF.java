@@ -22,7 +22,7 @@ public final class ReaderDBF {
     public static List<Object> readDBF(String filePath, String charsetName) throws IOException {
         try (InputStream inputStream = new FileInputStream(filePath)) {
             DBFReader reader = new DBFReader(inputStream, Charset.forName(charsetName));
-            // Собираем насвание столбцов
+            // Собираем название столбцов
             int numberOfFields = reader.getFieldCount();
             List<String> headName = new ArrayList<>();
             for (int i = 0; i < numberOfFields; i++) {
@@ -47,7 +47,7 @@ public final class ReaderDBF {
     }
 
     /**
-     * Спопоставленеи типов
+     * Сопоставление типов
      *
      * @param type наименование типа из файла DBF
      *

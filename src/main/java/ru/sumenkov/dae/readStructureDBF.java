@@ -31,7 +31,7 @@ public final class readStructureDBF {
     }
 
     /**
-     * Спопоставленеи типов
+     * Сопоставление типов
      *
      * @param type наименование типа из файла EXCEL
      *

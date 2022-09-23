@@ -19,7 +19,7 @@ public final class ProcessingFiles {
      * Собираем и обрабатываем файлы
      *
      * @param uploadDir Директория расположения файлов DBF
-     * @param fileExtension код агрумента выбора обработки, полученного от пользователя
+     * @param fileExtension код аргумента выбора обработки, полученного от пользователя
      */
     public static void processingFiles(Path uploadDir, String fileExtension, String charsetName) throws IOException {
         // Создаем директорию для сохранения новых файлов
