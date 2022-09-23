@@ -52,7 +52,7 @@ public final class ProcessingFiles {
     /**
      * Обработка каждого файла в отдельном потоке
      *
-     * @param fileExtension код агрумента выбора обработки, полученного от пользователя
+     * @param fileExtension код аргумента выбора обработки, полученного от пользователя
      * @param filePath полный путь файла
      */
     private record RunProcessing(String fileExtension, String filePath, String charsetName) implements Runnable {
