@@ -25,7 +25,7 @@ public final class WriterDBF {
         // создаем полный пусть с именем нового файла
         String saveFilePath = dirOut + "\\" + ProcessingPath.getFileName(filePath) + ".dbf";
         // Получаем структуру таблицы и создадим определения полей
-        DBFField[] fields = readStructureDBF.readStructure((Object[]) rowsData.get(0));
+        DBFField[] fields = ReadStructureDBF.readStructure((Object[]) rowsData.get(0));
         //записываем файл
         try (DBFWriter writer = new DBFWriter(new FileOutputStream(saveFilePath), Charset.forName(charsetName))){
            writer.setFields(fields);

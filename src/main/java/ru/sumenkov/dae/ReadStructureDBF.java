@@ -3,8 +3,8 @@ package ru.sumenkov.dae;
 import com.linuxense.javadbf.DBFDataType;
 import com.linuxense.javadbf.DBFField;
 
-public final class readStructureDBF {
-    private readStructureDBF() {
+public final class ReadStructureDBF {
+    private ReadStructureDBF() {
         throw new AssertionError("Instantiating StructureTableDBF class");
     }
 
