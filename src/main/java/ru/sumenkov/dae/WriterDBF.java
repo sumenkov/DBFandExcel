@@ -8,10 +8,7 @@ import java.nio.charset.Charset;
 import java.nio.file.Path;
 import java.util.List;
 
-public final class WriterDBF {
-    private WriterDBF() {
-        throw new AssertionError("Instantiating WriterDBF class.");
-    }
+public class WriterDBF {
 
     /**
      * Сохранить данные прочитанные из excel в формат dbf
@@ -19,13 +16,13 @@ public final class WriterDBF {
      * @param filePath Полный путь до прочитанного файла
      * @param rowsData коллекция данных
      */
-    public static void saveFileDBF(String filePath, List<Object> rowsData, String charsetName) throws IOException {
+    public void saveFileDBF(String filePath, List<Object> rowsData, String charsetName) throws IOException {
         // Получаем директорию для сохранения файлов Excel
         Path dirOut = Path.of(ProcessingPath.fixDirectoryPath(Path.of(filePath)).toString() + "\\new Files");
         // создаем полный пусть с именем нового файла
         String saveFilePath = dirOut + "\\" + ProcessingPath.getFileName(filePath) + ".dbf";
         // Получаем структуру таблицы и создадим определения полей
-        DBFField[] fields = ReadStructureDBF.readStructure((Object[]) rowsData.get(0));
+        DBFField[] fields = new ReadStructureDBF().readStructure((Object[]) rowsData.get(0));
         //записываем файл
         try (DBFWriter writer = new DBFWriter(new FileOutputStream(saveFilePath), Charset.forName(charsetName))){
            writer.setFields(fields);

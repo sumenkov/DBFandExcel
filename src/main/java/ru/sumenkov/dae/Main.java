@@ -5,6 +5,7 @@ import org.apache.commons.cli.*;
 import java.nio.file.Path;
 
 public class Main {
+
     public static void main(String[] args) throws Exception {
         CommandLineParser commandLineParser = new DefaultParser();
         Options options = new LaunchOptions().launchOptions();
@@ -25,7 +26,8 @@ public class Main {
             formatter.printHelp("DBFandExcel", options, true);
         }
 
-        if (fileExtension != null)
+        if (fileExtension != null) {
             ProcessingFiles.processingFiles(path, fileExtension, charsetName);
+        }
     }
 }

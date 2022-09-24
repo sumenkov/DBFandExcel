@@ -11,17 +11,15 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.util.List;
 
-public final class WriterExcel {
-    private WriterExcel() {
-        throw new AssertionError("Instantiating WriterExcel class.");
-    }
+public class WriterExcel {
+
     /**
      * Сохранить данные, прочитанные из файла DBF, как Excel
      *
      * @param filePath Полный путь до прочитанного файла
      * @param data коллекция данных
      */
-    public static void saveFileExcel(String filePath, List<Object> data) throws IOException, WriteException {
+    public void saveFileExcel(String filePath, List<Object> data) throws IOException, WriteException {
         // Создаем книгу и рабочий лист
         WritableWorkbook book = Workbook.createWorkbook(new File(getNewFileName(filePath)));
         WritableSheet sheet = book.createSheet(ProcessingPath.getFileName(filePath), 0);
@@ -37,7 +35,7 @@ public final class WriterExcel {
      *
      * @param filePath Полный путь до прочитанного файла
      */
-    private static String getNewFileName(String filePath) {
+    private String getNewFileName(String filePath) {
         return ProcessingPath.fixDirectoryPath(Path.of(filePath)).toString() + "\\new Files"
                 + "\\" + ProcessingPath.getFileName(filePath) + ".xls";
     }
@@ -48,7 +46,7 @@ public final class WriterExcel {
      * @param sheet рабочий лист
      * @param data коллекция данных
      */
-    private static void fillWorksheet(WritableSheet sheet, List<Object> data) throws WriteException {
+    private void fillWorksheet(WritableSheet sheet, List<Object> data) throws WriteException {
         for (int j = 0; j < data.size(); j++) {
             Object[] rowObjects = (Object[]) data.get(j);
             for (int k = 0; k < rowObjects.length; k++) {

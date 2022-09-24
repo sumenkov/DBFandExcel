@@ -9,12 +9,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public final class ReaderExcel {
-
-    private ReaderExcel() {
-        throw new AssertionError("Instantiating ReaderExcel class.");
-    }
-
+public class ReaderExcel {
 
     /**
      * Считать данные из файла Excel.
@@ -22,8 +17,7 @@ public final class ReaderExcel {
      * @param filePath Расположение файла DBF
      * @return массив данных, полученных из файла
      */
-
-    public static List<Object> readExcel(String filePath) throws BiffException, IOException {
+    public List<Object> readExcel(String filePath) throws BiffException, IOException {
         Workbook workbook = Workbook.getWorkbook(new File(filePath));
         Sheet sheet = workbook.getSheet(0);
         int rows = sheet.getRows();

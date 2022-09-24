@@ -10,7 +10,7 @@ public final class ProcessingPath {
     /**
      * char: 92 равно знаку '/'
      */
-    public static final int SLASH_CHARACTER = 92;
+    private static final int SLASH_CHARACTER = 92;
     private ProcessingPath() {
         throw new AssertionError("Instantiating ProcessingPath class.");
     }

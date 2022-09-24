@@ -3,10 +3,7 @@ package ru.sumenkov.dae;
 import com.linuxense.javadbf.DBFDataType;
 import com.linuxense.javadbf.DBFField;
 
-public final class ReadStructureDBF {
-    private ReadStructureDBF() {
-        throw new AssertionError("Instantiating StructureTableDBF class");
-    }
+public class ReadStructureDBF {
 
     /**
      * Вычитываем описания структуры DBF таблицы
@@ -14,7 +11,7 @@ public final class ReadStructureDBF {
      * @param headlinesOfColumns заголовки столбцов, первая строка из файла Excel
      * @return Спецификация полей в файле DBF и кодировка для записи, указанная в .ini
      */
-    public static DBFField[] readStructure(Object[] headlinesOfColumns) {
+    public DBFField[] readStructure(Object[] headlinesOfColumns) {
         int numberOfColumns = headlinesOfColumns.length;
         DBFField[] fields = new DBFField[numberOfColumns];
 
@@ -37,7 +34,7 @@ public final class ReadStructureDBF {
      *
      * @return тип в формате DBFDataType
      */
-    private static DBFDataType typeMatching(String type) {
+    private DBFDataType typeMatching(String type) {
         return switch (type) {
             case "C", "CHARACTER" -> DBFDataType.CHARACTER;
             case "N", "NUMERIC" -> DBFDataType.NUMERIC;

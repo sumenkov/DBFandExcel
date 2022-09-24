@@ -61,12 +61,12 @@ public final class ProcessingFiles {
             try {
                 switch (fileExtension) {
                     case "dbf" -> {
-                        List<Object> dataDBF = ReaderDBF.readDBF(filePath, charsetName);
-                        WriterExcel.saveFileExcel(filePath, dataDBF);
+                        List<Object> dataDBF = new ReaderDBF().readDBF(filePath, charsetName);
+                        new WriterExcel().saveFileExcel(filePath, dataDBF);
                     }
                     case "xls" -> {
-                        List<Object> dataExcel = ReaderExcel.readExcel(filePath);
-                        WriterDBF.saveFileDBF(filePath, dataExcel, charsetName);
+                        List<Object> dataExcel = new ReaderExcel().readExcel(filePath);
+                        new WriterDBF().saveFileDBF(filePath, dataExcel, charsetName);
                     }
                 }
             } catch (BiffException | WriteException | IOException e) {

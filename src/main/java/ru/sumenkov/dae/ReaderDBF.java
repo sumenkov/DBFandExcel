@@ -7,10 +7,7 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
-public final class ReaderDBF {
-    private ReaderDBF() {
-        throw new AssertionError("Instantiating ReaderDBF class.");
-    }
+public class ReaderDBF {
 
     /**
      * Считать данные из файла DBF.
@@ -18,8 +15,7 @@ public final class ReaderDBF {
      * @param filePath Расположение файла DBF
      * @return массив данных, полученных из файла
      */
-
-    public static List<Object> readDBF(String filePath, String charsetName) throws IOException {
+    public List<Object> readDBF(String filePath, String charsetName) throws IOException {
         try (InputStream inputStream = new FileInputStream(filePath)) {
             DBFReader reader = new DBFReader(inputStream, Charset.forName(charsetName));
             // Собираем название столбцов
@@ -53,7 +49,7 @@ public final class ReaderDBF {
      *
      * @return тип в виде символа
      */
-    private static String typeMatching(String type) {
+    private String typeMatching(String type) {
         return switch (type) {
             case "CHARACTER" -> "C";
             case "NUMERIC" -> "N";
