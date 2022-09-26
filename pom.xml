@@ -17,7 +17,7 @@
         <mainClass>ru.sumenkov.dae.Main</mainClass>
 
         <!-- dependency versions -->
-        <javadbf.version>1.13.1</javadbf.version>
+        <javadbf.version>1.13.2</javadbf.version>
         <jxls-jexcel.version>1.0.9</jxls-jexcel.version>
         <commons-cli.version>1.5.0</commons-cli.version>
 
@@ -26,7 +26,7 @@
     </properties>
 
     <build>
-        <finalName>DBFandExcel</finalName>
+        <finalName>dbf-and-excel</finalName>
 
         <plugins>
             <plugin>
