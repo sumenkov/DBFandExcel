@@ -23,7 +23,7 @@ public class Main {
             fileExtension = "xls";
         } else if (commandLine.hasOption("help")) {
             HelpFormatter formatter = new HelpFormatter();
-            formatter.printHelp("DBFandExcel", options, true);
+            formatter.printHelp("dbf-and-excel", options, true);
         }
 
         if (fileExtension != null) {
