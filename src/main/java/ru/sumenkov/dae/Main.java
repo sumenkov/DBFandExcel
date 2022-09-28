@@ -10,12 +10,7 @@ public class Main {
         CommandLineParser commandLineParser = new DefaultParser();
         Options options = new LaunchOptions().launchOptions();
         CommandLine commandLine = commandLineParser.parse(options, args);
-
         String fileExtension = null;
-        String charsetName = (commandLine.hasOption("charset")) ?
-                commandLine.getOptionValue("charset") : "IBM866";
-        Path path = (commandLine.hasOption("path")) ?
-                Path.of(commandLine.getOptionValue("path")) : ProcessingPath.requestPath();
 
         if (commandLine.hasOption("dbftoexcel")) {
             fileExtension = "dbf";
@@ -27,6 +22,11 @@ public class Main {
         }
 
         if (fileExtension != null) {
+            String charsetName = (commandLine.hasOption("charset")) ?
+                    commandLine.getOptionValue("charset") : "IBM866";
+            Path path = (commandLine.hasOption("path")) ?
+                    Path.of(commandLine.getOptionValue("path")) : ProcessingPath.requestPath();
+
             ProcessingFiles.processingFiles(path, fileExtension, charsetName);
         }
     }
