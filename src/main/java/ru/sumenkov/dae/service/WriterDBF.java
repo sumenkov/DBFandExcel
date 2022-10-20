@@ -1,6 +1,8 @@
-package ru.sumenkov.dae;
+package ru.sumenkov.dae.service;
 
 import com.linuxense.javadbf.*;
+import ru.sumenkov.dae.repository.ReadStructureDBF;
+import ru.sumenkov.dae.mapper.ProcessingPath;
 
 import java.io.FileOutputStream;
 import java.io.IOException;

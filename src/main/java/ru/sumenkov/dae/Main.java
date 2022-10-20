@@ -1,6 +1,8 @@
 package ru.sumenkov.dae;
 
 import org.apache.commons.cli.*;
+import ru.sumenkov.dae.mapper.ProcessingFiles;
+import ru.sumenkov.dae.mapper.ProcessingPath;
 
 import java.nio.file.Path;
 

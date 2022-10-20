@@ -1,4 +1,4 @@
-package ru.sumenkov.dae;
+package ru.sumenkov.dae.repository;
 
 import jxl.Sheet;
 import jxl.Workbook;

@@ -1,4 +1,4 @@
-package ru.sumenkov.dae;
+package ru.sumenkov.dae.mapper;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -8,7 +8,7 @@ import java.nio.file.Path;
 
 public final class ProcessingPath {
     /**
-     * char: 92 равно знаку '/'
+     * char: 92 - равно знаку '/'
      */
     private static final int SLASH_CHARACTER = 92;
     private ProcessingPath() {
