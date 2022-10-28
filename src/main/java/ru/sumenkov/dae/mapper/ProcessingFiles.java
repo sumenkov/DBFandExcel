@@ -34,7 +34,7 @@ public final class ProcessingFiles {
             String substring = filePath.substring(filePath.lastIndexOf(".") + 1);
             if (substring.equalsIgnoreCase(fileExtension)) {
                 System.out.println("Конвертируем файл: " + uploadDir.getFileName());
-                RunProcessing runProcessing = new RunProcessing(fileExtension, filePath, charsetName);
+                runProcessing runProcessing = new runProcessing(fileExtension, filePath, charsetName);
                 new Thread(runProcessing).start();
             }
         }
@@ -45,7 +45,7 @@ public final class ProcessingFiles {
                     String substring = file.toString().substring(file.toString().lastIndexOf(".") + 1);
                     if (Files.isRegularFile(file) && substring.equalsIgnoreCase(fileExtension)) {
                         System.out.println("Конвертируем файл: " + file.getFileName());
-                        RunProcessing runProcessing = new RunProcessing(fileExtension, file.toString(), charsetName);
+                        runProcessing runProcessing = new runProcessing(fileExtension, file.toString(), charsetName);
                         new Thread(runProcessing).start();
                     }
                 }
@@ -59,7 +59,7 @@ public final class ProcessingFiles {
      * @param fileExtension код аргумента выбора обработки, полученного от пользователя
      * @param filePath полный путь файла
      */
-    private record RunProcessing(String fileExtension, String filePath, String charsetName) implements Runnable {
+    private record runProcessing(String fileExtension, String filePath, String charsetName) implements Runnable {
         @Override
         public void run() {
             try {
