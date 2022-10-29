@@ -13,7 +13,6 @@ public class LaunchOptions {
         OptionGroup optionGroup = new OptionGroup();
         optionGroup.addOption(new Option("d", "dbftoexcel", false, "Конвертация DBF таблиц в Excel"));
         optionGroup.addOption(new Option("e", "exceltodbf", false, "Конвертация Excel таблиц в DBF"));
-        optionGroup.addOption(new Option("h", "help", false, "Помощь по запуску программы"));
 
         Options options = new Options();
         options.addOptionGroup(optionGroup);

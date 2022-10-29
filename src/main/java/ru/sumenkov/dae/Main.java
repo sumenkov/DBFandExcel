@@ -11,6 +11,9 @@ public class Main {
     public static void main(String[] args) throws Exception {
         CommandLineParser commandLineParser = new DefaultParser();
         Options options = new LaunchOptions().launchOptions();
+
+        if (args.length == 0) helper(options);
+
         CommandLine commandLine = commandLineParser.parse(options, args);
         String fileExtension = null;
 
@@ -18,9 +21,8 @@ public class Main {
             fileExtension = "dbf";
         } else if (commandLine.hasOption("exceltodbf")) {
             fileExtension = "xls";
-        } else if (commandLine.hasOption("help")) {
-            HelpFormatter formatter = new HelpFormatter();
-            formatter.printHelp("dbf-and-excel", options, true);
+        } else {
+            helper(options);
         }
 
         if (fileExtension != null) {
@@ -31,5 +33,11 @@ public class Main {
 
             ProcessingFiles.processingFiles(path, fileExtension, charsetName);
         }
+    }
+
+    private static void helper(Options options){
+        HelpFormatter formatter = new HelpFormatter();
+        formatter.printHelp("mysql-to-json", options, true);
+        System.exit(0);
     }
 }
